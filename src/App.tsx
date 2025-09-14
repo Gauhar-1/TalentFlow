@@ -2,6 +2,7 @@ import './App.css'
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import { JobsPage } from './pages/JobsPage'
 import { AppProvider } from './providers/AppProvider'
+import { CandidateListPages } from './pages/CandidatesListPage'
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Navigate to="/jobs"/>}> </Route>
           <Route path='/jobs' element={<JobsPage/>}> </Route>
+          <Route path='/candidates' element={<CandidateListPages/>}> </Route>
         </Routes>
       </Router>
     </AppProvider>

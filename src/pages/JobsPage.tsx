@@ -1,7 +1,7 @@
 // src/pages/JobsPage.tsx
 
 import { useState } from 'react';
-import { useJobs } from '../features/hooks/useJobs';
+import { useJobs } from '../features/jobs/hooks/useJobs';
 // import { JobsTable } from '../features/jobs/components/JobsTable';
 import { Button } from '@/components/ui/button';
 // import { Input } from '@/components/ui/input';
@@ -51,7 +51,7 @@ export function JobsPage() {
         //   totalPages={data.totalPages}
         // />
     //   );
-    return null;
+    return (null);
     }
 
     return null;
