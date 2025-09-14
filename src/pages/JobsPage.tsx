@@ -2,19 +2,19 @@
 
 import { useState } from 'react';
 import { useJobs } from '../features/jobs/hooks/useJobs';
-// import { JobsTable } from '../features/jobs/components/JobsTable';
 import { Button } from '@/components/ui/button';
-// import { Input } from '@/components/ui/input';
-// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-// import { CreateEditJobModal } from '../features/jobs/components/CreateEditJobModal';
-// import { TableSkeleton } from '@/components/shared/TableSkeleton'; // A custom skeleton component
+import { JobTable } from '@/features/jobs/components/JobTable';
+
+import type { Job } from '@/features/jobs/types';
+
+
 
 export function JobsPage() {
-  // 1. Manage UI State
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState<'active' | 'archived' | 'all'>('all');
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
 
   // 2. Call the Data Hook
   const { data, isLoading, isError, isFetching } = useJobs({
@@ -43,22 +43,23 @@ export function JobsPage() {
 
     if (data) {
         console.log("Data ", data)
-    //   return (
-        // <JobsTable
-        //   jobs={data.jobs}
-        //   page={page}
-        //   setPage={setPage}
-        //   totalPages={data.totalPages}
-        // />
-    //   );
-    return (null);
+      return (
+        <JobTable
+          jobs={data.jobs as Job[]}
+          // page={page}
+          // setPage={setPage}
+          // totalPages={data.totalPages}
+        />
+      );
     }
 
     return null;
   };
 
+   
+
   return (
-    <div className="container mx-auto py-8 px-4">
+    <div className="mx-auto  p-8 w-screen">
       <header className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Jobs Board</h1>
@@ -67,41 +68,9 @@ export function JobsPage() {
         <Button onClick={() => setIsModalOpen(true)}>Create Job</Button>
       </header>
 
-      <div className="flex items-center gap-4 mb-4">
-        {/* <Input
-          placeholder="Search by job title..."
-          value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setPage(1); // Reset to page 1 when searching
-          }}
-          className="max-w-sm"
-        /> */}
-        {/* <Select value={status} onValueChange={(value) => {
-          setStatus(value as any);
-          setPage(1); // Reset to page 1 when filter changes
-        }}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Filter by status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Statuses</SelectItem>
-            <SelectItem value="active">Active</SelectItem>
-            <SelectItem value="archived">Archived</SelectItem>
-          </SelectContent>
-        </Select> */}
-        {/* Optional: Show a subtle indicator when refetching in the background */}
-        {isFetching && !isLoading && (
-          <span className="text-sm text-muted-foreground">Updating...</span>
-        )}
-      </div>
+       
+      <div>{renderContent()}</div>
 
-      <main>{renderContent()}</main>
-
-      {/* <CreateEditJobModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      /> */}
     </div>
   );
 }

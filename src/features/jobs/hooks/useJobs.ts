@@ -1,4 +1,4 @@
-import type { IJob } from "../../db";
+import type { IJob } from '@/db';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 

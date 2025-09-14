@@ -115,7 +115,6 @@ export const KanbanBoard = () =>{
 
     return (
         <div>
-            <div> KanbanBoard</div>
             <DndContext
                sensors={sensors}
                onDragStart={handleStart}
