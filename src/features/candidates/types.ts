@@ -1,3 +1,5 @@
+import type { Job } from "../jobs/types";
+
 export type Candidate = {
     id : string,
     name: string,
@@ -12,3 +14,7 @@ export type Columns = {
 }
 
 export type CandidateStages = 'applied' | 'screen' | 'tech' | 'offer' | 'hired' | 'rejected';
+
+export interface CandidatesProps {
+    candidatesData : Candidate[]
+}

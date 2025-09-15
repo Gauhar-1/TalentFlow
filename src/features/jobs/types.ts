@@ -1,5 +1,5 @@
 export interface Job {
-    id:  number;
+    id:  string;
     title: string;
     slug: string;
     status: 'active' | 'archieved';
@@ -13,4 +13,16 @@ export interface JobsProps {
 
 export interface JobProp {
     job: Job;
+}
+
+export interface JobsApiResponse {
+    jobs: Job[];
+    totalPages: number;
+}
+
+export interface UseJobsProps {
+    status?: 'active' | 'archived' | 'all';
+    search?: string;
+    page?: number;
+    pageSize?: number;
 }

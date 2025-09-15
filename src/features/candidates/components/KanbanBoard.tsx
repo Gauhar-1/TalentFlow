@@ -1,7 +1,7 @@
 
 import { useMemo, useState } from "react"
 import { KanbanColumns } from "./KanbanColumn"
-import type { Candidate, CandidateStages } from "../types"
+import type { Candidate, CandidatesProps, CandidateStages } from "../types"
 import {  DndContext, DragOverlay, PointerSensor, rectIntersection, useSensor, useSensors, type DragEndEvent, type DragStartEvent } from "@dnd-kit/core"
 import { CandidateCard } from "./CandidateCard"
 
@@ -27,9 +27,9 @@ const candidatesStages = [
 
 
 
-export const KanbanBoard = () =>{
+export const KanbanBoard = ({ candidatesData } : CandidatesProps) =>{
 
-    const [ candidates , setCandidates ] = useState<Candidate[] | null>(mockCandidates);
+    const [ candidates , setCandidates ] = useState<Candidate[]>(candidatesData || []);
     const [ activeCandidate, setActiveCandidate ] = useState<Candidate | null>(null);
 
     const columns = useMemo(()=>{
@@ -52,7 +52,7 @@ export const KanbanBoard = () =>{
         if(!candidates) return grouped;
  
         // Change the "1" to job id 
-        const filteredCandidates = candidates.filter(c => c.jobId === '1');
+        const filteredCandidates = candidates.filter(c => c.jobId === 'd2438a35-d6f9-4438-9b12-68ce58b45b6e');
 
         filteredCandidates.forEach((candidate) => {
             if(candidate.stage in grouped){

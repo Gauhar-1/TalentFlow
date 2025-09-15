@@ -1,10 +1,9 @@
-import { http, HttpResponse } from "msw";
-import { db } from "../../db";
+import { db } from "@/db";
+import { delay, http, HttpResponse } from "msw";
 
 const BASE_URL = '/api/jobs';
 
-// Utility for artificak delay
-const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+
 
 export const jobsHandlers = [
     http.get(BASE_URL, async({ request }) =>{

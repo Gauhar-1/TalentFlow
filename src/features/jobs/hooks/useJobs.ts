@@ -1,19 +1,8 @@
-import type { IJob } from '@/db';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import type { JobsApiResponse, UseJobsProps } from '../types';
 
 
-interface JobsApiResponse {
-    jobs: IJob[];
-    totalPages: number;
-}
-
-interface UseJobsProps {
-    status?: 'active' | 'archived' | 'all';
-    search?: string;
-    page?: number;
-    pageSize?: number;
-}
 
 const fetchJobs = async ({ status, search, page, pageSize }: UseJobsProps): Promise<JobsApiResponse> => {
     const params = new URLSearchParams();
@@ -23,8 +12,6 @@ const fetchJobs = async ({ status, search, page, pageSize }: UseJobsProps): Prom
     if (pageSize) params.append('pageSize', String(pageSize));
 
     const response = await axios.get(`/api/jobs`);
-
-    console.log("Response: ", response.data)
 
     if(!response.data){
         throw new Error('An error occurred while fetching the jobs');
