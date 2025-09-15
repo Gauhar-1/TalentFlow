@@ -1,26 +1,25 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { DraggableJobRow, JobListDnD } from './jobsListDnD';
 import type { Job, JobsProps } from '../types';
 import { useState } from 'react';
 import { arrayMove } from '@dnd-kit/sortable';
-import { DndContext, DragOverlay, PointerSensor, rectIntersection, useSensor, useSensors, type DragEndEvent, type DragStartEvent } from '@dnd-kit/core';
+import { closestCenter, DndContext, DragOverlay, PointerSensor, useSensor, useSensors,  type CollisionDetection, type DragEndEvent, type DragStartEvent, type DroppableContainer, } from '@dnd-kit/core';
+import { DraggableJobRow, JobListDnD } from './JobsListDnD';
 
 export const JobTable = ({ jobs} : JobsProps)=>{
-    const [ jobsData , setJobsData ] = useState<Job[] | null>(jobs);
+    const [ jobsData , setJobsData ] = useState<Job[]>(jobs || []);
   const [ activeJob , setActiveJob ] = useState<Job | null>(null);
 
     const sensors = useSensors(
           useSensor(PointerSensor, {
               activationConstraint : {
-                  distance: 1,
+                  distance: 8,
               },
           })
       );
   
       const handleStart = (event: DragStartEvent) =>{
-          setActiveJob(null);
           const { active } = event;
           if(jobs) {
               const job = jobs.find(j => j.id === active.id);
@@ -31,26 +30,31 @@ export const JobTable = ({ jobs} : JobsProps)=>{
       }
   
       const handleDragEnd = async (event: DragEndEvent) =>{
+           setActiveJob(null)
   
           const { active, over } = event;
   
-          if(!over || !jobs || active.id === over.id) return ;
+          if(!over || active.id === over.id) return ;
   
-          const oldIndex = jobs?.findIndex((job) => job.order === active.id);
-          const newIndex = jobs?.findIndex((job) => job.order === over.id);
+          const oldIndex = jobsData.findIndex((job) => job.id === active.id);
+          const newIndex = jobsData.findIndex((job) => job.id === over.id);
 
           if(oldIndex === -1 || newIndex === -1) return;
           
         let reorderedJobs = arrayMove(jobs, oldIndex, newIndex);
-        const overId  = over.id as number;
-        const activeId = active.id as number;
-        console.log("OverId", overId);
+
+        console.log("OverId", over.id);
         console.log("active", active.id);
 
-        const updatedJobsWithOrder : Job[] = reorderedJobs.map((job, index) => ( job.order < overId  && job.order > activeId ? { ...job, order: index - 1} : job) )
+        const updatedJobsWithOrder = reorderedJobs.map((job, index) => ({
+    ...job,
+    order: index + 1, 
+}));
 
           setJobsData(updatedJobsWithOrder);
+          console.log("Updated: ", updatedJobsWithOrder);
       }
+
 
     return (
          <Card className='bg-gray-300 flex flex-col gap-6 h-[70vh]'>
@@ -71,9 +75,9 @@ export const JobTable = ({ jobs} : JobsProps)=>{
        sensors={sensors}
        onDragStart={handleStart}
        onDragEnd={handleDragEnd}
-       collisionDetection={rectIntersection}
+       collisionDetection={closestCenter}
        >
-              <JobListDnD jobs={jobsData || []}/>
+              <JobListDnD jobs={jobsData}/>
 
                <DragOverlay>
                               { activeJob ? (
