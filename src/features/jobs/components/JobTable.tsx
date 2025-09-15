@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import type { Job, JobsProps } from '../types';
 import { useState } from 'react';
 import { arrayMove } from '@dnd-kit/sortable';
-import { closestCenter, DndContext, DragOverlay, PointerSensor, useSensor, useSensors,  type CollisionDetection, type DragEndEvent, type DragStartEvent, type DroppableContainer, } from '@dnd-kit/core';
+import { closestCenter, DndContext, DragOverlay, PointerSensor, useSensor, useSensors, type DragEndEvent, type DragStartEvent, } from '@dnd-kit/core';
 import { DraggableJobRow, JobListDnD } from './JobsListDnD';
 
 export const JobTable = ({ jobs} : JobsProps)=>{

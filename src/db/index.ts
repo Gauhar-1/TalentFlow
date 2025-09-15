@@ -2,21 +2,23 @@
 import Dexie, { type Table } from 'dexie';
 
 export interface IJob {
-    id?:  number;
+    id:  string;
     title: string;
     slug: string;
-    status: 'active' | 'archieved';
+    status: 'active' | 'archived';
     tags: string[];
     order: number;
 }
 
 export interface ICandidate {
-    id?: number;
+    id: string;
     name: string;
     email: string;
-    jobId: number;
+    jobId: string;
     stage: 'applied' | 'screen' | 'tech' | 'offer' | 'hired' | 'rejected';
 }
+
+export type Stages = 'applied' | 'screen' | 'tech' | 'offer' | 'hired' | 'rejected';
 
 export interface IAssessment {
     jobId: number;
