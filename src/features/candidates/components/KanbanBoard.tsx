@@ -5,16 +5,6 @@ import type { Candidate, CandidatesProps, CandidateStages } from "../types"
 import {  DndContext, DragOverlay, PointerSensor, rectIntersection, useSensor, useSensors, type DragEndEvent, type DragStartEvent } from "@dnd-kit/core"
 import { CandidateCard } from "./CandidateCard"
 
-const mockCandidates : Candidate[] = [
-   { id: 'c1', name: 'Alice Johnson', email: 'alice@example.com', stage: 'applied', jobId: '1' },
-    { id: 'c2', name: 'Bob Williams', email: 'bob@example.com', stage: 'applied', jobId: '1' },
-    { id: 'c3', name: 'Charlie Brown', email: 'charlie@example.com', stage: 'screen', jobId: '1' },
-    { id: 'c4', name: 'Diana Miller', email: 'diana@example.com', stage: 'tech', jobId: '1' },
-    { id: 'c5', name: 'Ethan Davis', email: 'ethan@example.com', stage: 'offer', jobId: '1' },
-    { id: 'c6', name: 'Fiona Garcia', email: 'fiona@example.com', stage: 'hired', jobId: '1' },
-    { id: 'c7', name: 'George Rodriguez', email: 'george@example.com', stage: 'rejected', jobId: '1' },
-    { id: 'c8', name: 'Hannah Martinez', email: 'hannah@example.com', stage: 'screen', jobId: '1' },
-]
 
 const candidatesStages = [
   'applied',

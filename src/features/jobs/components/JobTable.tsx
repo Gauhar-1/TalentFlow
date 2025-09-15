@@ -1,11 +1,12 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+
 import type { Job, JobsProps } from '../types';
 import { useState } from 'react';
 import { arrayMove } from '@dnd-kit/sortable';
 import { closestCenter, DndContext, DragOverlay, PointerSensor, useSensor, useSensors, type DragEndEvent, type DragStartEvent, } from '@dnd-kit/core';
 import { DraggableJobRow, JobListDnD } from './JobsListDnD';
+import { Table } from '@/components/shared/Table';
+
+const jobHeaders = ['Title', 'Slug', 'Status', 'Tags' ];
 
 export const JobTable = ({ jobs} : JobsProps)=>{
     const [ jobsData , setJobsData ] = useState<Job[]>(jobs || []);
@@ -57,35 +58,20 @@ export const JobTable = ({ jobs} : JobsProps)=>{
 
 
     return (
-         <Card className='bg-gray-300 flex flex-col gap-6 h-[70vh]'>
-            
-            <div className='flex gap-2 w-xl px-7' >
-              <Input  className='h-10 bg-white'/>
-              <Button className='text-lg h-10 bg-gray-700 shadow-xl test-shadow-lg'>Search</Button>
-            </div>
-
-            <Card className='flex-1 mx-3'>
-              <CardContent className='flex justify-around w-full text-xl font-bold'>
-                <div className='bg-gray-600 text-white mx-0.5 flex justify-center p-2 flex-1 rounded-tl-xl text-shadow-lg'>Title</div>
-                <div className='bg-gray-600 text-white mx-0.5 flex justify-center p-2 flex-1 text-shadow-lg'>Slug</div>
-                <div className='bg-gray-600 text-white mx-0.5 flex justify-center p-2 flex-1 text-shadow-lg'>Status</div>
-                <div className='bg-gray-600 text-white mx-0.5 flex justify-center p-2 flex-1 rounded-tr-xl text-shadow-lg '>Tags</div>
-              </CardContent>
-              <DndContext 
+         <Table headers={jobHeaders}>
+        <DndContext 
        sensors={sensors}
        onDragStart={handleStart}
        onDragEnd={handleDragEnd}
        collisionDetection={closestCenter}
        >
               <JobListDnD jobs={jobsData}/>
-
                <DragOverlay>
-                              { activeJob ? (
-                                  <DraggableJobRow job={activeJob} />
-                              ) : null}
-                          </DragOverlay>
+                  { activeJob ? (
+                <DraggableJobRow job={activeJob} />                              ) : null}
+               </DragOverlay>
        </DndContext>
-            </Card>
-        </Card>
+         </Table>
     )
 }
+

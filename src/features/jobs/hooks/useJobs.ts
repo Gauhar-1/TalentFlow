@@ -4,12 +4,7 @@ import type { JobsApiResponse, UseJobsProps } from '../types';
 
 
 
-const fetchJobs = async ({ status, search, page, pageSize }: UseJobsProps): Promise<JobsApiResponse> => {
-    const params = new URLSearchParams();
-    if (status) params.append('status', status);
-    if (search) params.append('search', search);
-    if (page) params.append('page', String(page));
-    if (pageSize) params.append('pageSize', String(pageSize));
+const fetchJobs = async (): Promise<JobsApiResponse> => {
 
     const response = await axios.get(`/api/jobs`);
 
@@ -20,9 +15,9 @@ const fetchJobs = async ({ status, search, page, pageSize }: UseJobsProps): Prom
     return response.data;
 };
 
-export const useJobs = ({ status, search, page, pageSize }: UseJobsProps ) => {
+export const useJobs = () => {
     return useQuery ({
-        queryKey: ['jobs', { status, search, page, pageSize }],
-        queryFn: () => fetchJobs({ status, search, page, pageSize }),
+        queryKey: ['jobs', {}],
+        queryFn: () => fetchJobs(),
     });
 };

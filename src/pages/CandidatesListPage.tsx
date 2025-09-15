@@ -1,4 +1,5 @@
 import { KanbanBoard } from "@/features/candidates/components/KanbanBoard"
+import { VirtualizedList } from "@/features/candidates/components/VirtualizedList";
 import { useCandidates } from "@/features/candidates/hooks/useCandidates"
 
 export const CandidateListPages = ()=>{
@@ -20,7 +21,8 @@ export const CandidateListPages = ()=>{
     if(data) {
         return (
             <div>
-                <KanbanBoard candidatesData={data.candidates}></KanbanBoard>
+                {/* <KanbanBoard candidatesData={data.candidates}></KanbanBoard> */}
+                <VirtualizedList candidatesData= {data.candidates}></VirtualizedList>
             </div>
         )
     }

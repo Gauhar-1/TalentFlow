@@ -8,26 +8,26 @@ const BASE_URL = '/api/jobs';
 export const jobsHandlers = [
     http.get(BASE_URL, async({ request }) =>{
         try{
-            const url = new URL(request.url);
-            const status = url.searchParams.get('status');
-            const search = url.searchParams.get('search');
-            const page = Number(url.searchParams.get('page') || '1');
-            const pageSize = Number(url.searchParams.get('pageSize') || '10');
+            // const url = new URL(request.url);
+            // const status = url.searchParams.get('status');
+            // const search = url.searchParams.get('search');
+            // const page = Number(url.searchParams.get('page') || '1');
+            // const pageSize = Number(url.searchParams.get('pageSize') || '10');
 
             let query = db.jobs.orderBy('order');
 
             if(status && status !== 'all') {
                 query = query.filter(job => job.status === status);
             }
-            if(search) {
-                query = query.filter(job =>
-                    job.title.toLowerCase().includes(search.toLowerCase())
-                );
-            }
+            // if(search) {
+            //     query = query.filter(job =>
+            //         job.title.toLowerCase().includes(search.toLowerCase())
+            //     );
+            // }
 
             const totalJobs = await query.count();
 
-            const jobs = await query.offset((page - 1) * pageSize).limit(pageSize).toArray();
+            const jobs = await query.toArray();
 
             // delay : Simulate network latency as required
             await delay(Math.random() * 1000 + 200);

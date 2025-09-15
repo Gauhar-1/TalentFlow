@@ -29,7 +29,7 @@ const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
 
 export const JobListDnD = ({ jobs } : JobsProps)=>{
      return (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 h-[500px] overflow-y-auto">
             <SortableContext items={jobs.map(j => j.id)}>
             {jobs.map(job => (
                 <DraggableJobRow key={job.id} job={job} />

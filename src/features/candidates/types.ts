@@ -1,4 +1,3 @@
-import type { Job } from "../jobs/types";
 
 export type Candidate = {
     id : string,
