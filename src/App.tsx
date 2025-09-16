@@ -3,6 +3,8 @@ import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-d
 import { JobsPage } from './pages/JobsPage'
 import { AppProvider } from './providers/AppProvider'
 import { CandidateListPages } from './pages/CandidatesListPage'
+import { AssessmentBuilder } from './pages/AssessmentBuilderPage'
+import { AssessmentRuntime } from './pages/AssessmentRuntime'
 
 function App() {
 
@@ -11,8 +13,10 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={<Navigate to="/jobs"/>}> </Route>
-          <Route path='/jobs' element={<JobsPage/>}> </Route>
-          <Route path='/candidates' element={<CandidateListPages/>}> </Route>
+          <Route path='/jobs' element={<JobsPage />}> </Route>
+          <Route path='/candidates' element={<CandidateListPages />}> </Route>
+          <Route path='/assessments' element={<AssessmentBuilder />}> </Route>
+          <Route path='/assessmentsRuntime' element={<AssessmentRuntime />}> </Route>
         </Routes>
       </Router>
     </AppProvider>

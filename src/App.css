@@ -1,0 +1,50 @@
+/* src/styles.css */
+body { font-family: sans-serif; }
+
+.builder-container {
+  display: flex;
+  height: 100vh;
+}
+
+.config-panel {
+  width: 35%;
+  background-color: #f9f9f9;
+}
+
+.preview-panel {
+  width: 65%;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.preview-section { margin-bottom: 2em; }
+.preview-question {
+  border: 1px solid #eee;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.preview-question:hover { border-color: #999; }
+.preview-question.selected { border-color: #007bff; border-width: 2px; }
+.preview-question label { font-weight: bold; display: block; margin-bottom: 8px; }
+
+.question-editor label { display: block;  font-weight: bold; }
+.question-editor input[type="text"] { width: 90%; padding: 8px; margin-top: 4px; }
+.save-button { padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px; }
+
+/* Assessment runtime */
+.runtime-form { max-width: 700px; margin: 2rem auto; font-family: sans-serif; }
+.runtime-section { border: 1px solid #ccc; border-radius: 8px; margin-bottom: 2rem; padding: 1.5rem; }
+.runtime-section legend { font-size: 1.5rem; font-weight: bold; padding: 0 0.5rem; }
+
+.question-wrapper { margin-bottom: 1.5rem; }
+.question-wrapper > label { font-weight: bold; display: block; margin-bottom: 0.5rem; }
+.question-wrapper input[type="text"],
+.question-wrapper input[type="number"],
+.question-wrapper textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+.question-wrapper .radio-label { font-weight: normal; display: block; margin-bottom: 0.25rem; }
+
+.error-message { color: #d93025; font-size: 0.875rem; margin-top: 0.25rem; }
+button[type="submit"] { padding: 10px 20px; font-size: 1rem; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }

@@ -1,0 +1,66 @@
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useMemo } from "react";
+import { Button } from "@/components/ui/button";
+import { useAssessmentBuilder } from "../context/AssessmentContext";
+
+
+export const PreviewPanel = () =>{
+    const { assessment, setSelectedQuestionId, selectedQuestionId,selectedSectionTitle, setSelectedSectionTitle} = useAssessmentBuilder();
+
+    const  sections : string[] = useMemo(()=>{
+        const sectionTitles = assessment.sections.map(s =>  s.title);
+
+        return sectionTitles;
+    },[assessment])
+    
+
+    return (
+        <div className="flex flex-col gap-3">
+            <Card className="bg-gray-500  p-4 h-[90vh]">
+
+                <CardHeader className="text-white text-2xl text-shadow-lg font-bold">Live Preview</CardHeader>
+
+                <Card className="p-2 rounded-lg my-2">
+                        <CardContent className="flex gap-2">
+                        {sections.map( s => (
+                            <Button key={s} className={`${ s == selectedSectionTitle ? "bg-gray-500 shadow-xl " :"bg-white text-gray-600 border-1 border-gray-500"} font-mono hover:bg-gray-400 `} onClick={() =>{
+                                setSelectedSectionTitle(s)
+                            }}>{s}</Button>
+                        ))}
+                        </CardContent>
+                    </Card>
+
+                <CardContent className="bg-white rounded-lg p-4 h-full">
+                    {assessment.sections.map(section => {
+
+                    if(selectedSectionTitle == section.title)
+                   return <div key={section.id} className="preview-section">
+                    <Card className="border-none shadow-none relative">
+                            <h4 className="absolute top-3 bg-white px-2 left-5 text-lg">{section.title}</h4>
+                        <CardContent className="border-2 rounded-lg border-gray-500 px-4 h-[60vh]  pt-6 pb-2 overflow-y-auto">
+                    {section.questions.map(q => (
+                        <div key={q.id} className={`preview-question ${q.id === selectedQuestionId ? 'selected' : ''}`} onClick={()=> setSelectedQuestionId(q.id)}>
+                            <label>{q.label}{q.validations?.required && '*'}</label>
+                            {q.type === 'short-text' && <input type="text" placeholder="Answer..." readOnly/>}
+                            {q.type === 'numeric' && <input type="text" placeholder="0" readOnly/>}
+                            {q.type === 'long-text' && <textarea placeholder="Long answer..." readOnly/>}
+                            {q.type === 'single-choice' && q.options?.map(opt => (
+                                <div key={opt}>
+                                    <input type="radio" name={q.id} readOnly />
+                                    {opt}
+                                </div>
+                            ))}
+                            {/* Add other types */}
+                        </div>
+                    ))}
+                        </CardContent>
+                    </Card>
+                    
+                </div>
+            })}
+                </CardContent>
+            </Card>
+            
+        </div>
+    )
+}
