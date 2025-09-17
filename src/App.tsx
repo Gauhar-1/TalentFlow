@@ -6,6 +6,7 @@ import { CandidateListPages } from './pages/CandidatesListPage'
 import { AssessmentBuilder } from './pages/AssessmentBuilderPage'
 import { AssessmentRuntime } from './pages/AssessmentRuntime'
 import JobDetailPage from './pages/JobDetailsPage'
+import CandidateProfilePage from './pages/CandidateProfilePage'
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
           <Route path='/jobs' element={<JobsPage />}> </Route>
           <Route path="/jobs/:jobid" element={<JobDetailPage />} />
           <Route path='/candidates' element={<CandidateListPages />}> </Route>
+          <Route path='/candidates/:id' element={<CandidateProfilePage />}> </Route>
           <Route path='/assessment' element={<AssessmentBuilder />}> </Route>
           <Route path='/assessmentsRuntime' element={<AssessmentRuntime />}> </Route>
         </Routes>
