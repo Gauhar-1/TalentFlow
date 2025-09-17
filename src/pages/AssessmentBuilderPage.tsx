@@ -1,5 +1,4 @@
-import { useState } from "react"
-import type { Assessment, Question } from "../features/assessments/types"
+import type { Assessment } from "../features/assessments/types"
 import { ConfigurationPanel } from "../features/assessments/components/ConfigurationPanel";
 import { PreviewPanel } from "../features/assessments/components/PreviewPanel";
 import { AssessmentBuilderProvider } from "@/features/assessments/context/AssessmentContext";

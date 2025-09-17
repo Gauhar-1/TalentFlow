@@ -3,47 +3,66 @@ import { delay, http, HttpResponse } from "msw";
 
 const BASE_URL = '/api/jobs';
 
-
+const ITEMS_PER_PAGE = 10;
 
 export const jobsHandlers = [
-    http.get(BASE_URL, async({ request }) =>{
+    http.get(`${BASE_URL}/all`, async() =>{
         try{
-            // const url = new URL(request.url);
-            // const status = url.searchParams.get('status');
-            // const search = url.searchParams.get('search');
-            // const page = Number(url.searchParams.get('page') || '1');
-            // const pageSize = Number(url.searchParams.get('pageSize') || '10');
 
             let query = db.jobs.orderBy('order');
 
-            if(status && status !== 'all') {
-                query = query.filter(job => job.status === status);
-            }
-            // if(search) {
-            //     query = query.filter(job =>
-            //         job.title.toLowerCase().includes(search.toLowerCase())
-            //     );
-            // }
-
-            const totalJobs = await query.count();
-
             const jobs = await query.toArray();
 
-            // delay : Simulate network latency as required
             await delay(Math.random() * 1000 + 200);
-
-            // const jobs = await db.jobs.toArray();
-            console.log("Jobs: ", jobs);
 
             return HttpResponse.json({
                 jobs,
-                // totalPages: Math.ceil(totalJobs / pageSize),
             }, { status: 201 });
         }
         catch(error) {
             console.error('[MSW] Handler for GET /jobs failed:', error);
             return HttpResponse.json({ message: 'Error fetching jobs', }, { status: 500 });
         }
+    }),
+
+    http.get(BASE_URL, async ({ request })=>{
+        const url = new URL(request.url);
+        const page = parseInt(url.searchParams.get('page') || '1');
+        const title = url.searchParams.get('title');
+        const status = url.searchParams.get('status');
+        
+        try {
+      let query = db.jobs.orderBy('order'); // Start with an ordered collection
+
+      // Apply filters if they exist
+      if (status && status !== 'all') {
+        query = query.filter(job => job.status === status);
+      }
+      
+      if (title) {
+        query = query.filter(job => job.title.toLowerCase().includes(title.toLowerCase()));
+      }
+
+      const filteredJobs = await query.toArray();
+      const totalItems = filteredJobs.length;
+      const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+
+      // Apply pagination to the filtered array
+      const startIndex = (page - 1) * ITEMS_PER_PAGE;
+      const paginatedJobs = filteredJobs.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+      // Simulate network delay
+      await delay(300);
+
+      return HttpResponse.json({
+        jobs: paginatedJobs,
+        totalPages,
+        currentPage: page,
+      });
+    } catch (error) {
+      console.error('[MSW] Failed to get paginated jobs:', error);
+      return HttpResponse.json({ message: 'Error fetching jobs' }, { status: 500 });
+    }
     }),
 
     http.post(BASE_URL, async ({ request }) => {

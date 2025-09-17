@@ -2,8 +2,8 @@
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
-import { Phone, Mail, Linkedin, FileText, Plus, ChevronDown } from 'lucide-react';
-import React, { useState } from 'react';
+import { Phone, Mail, Linkedin, FileText, Plus } from 'lucide-react';
+import  { useState } from 'react';
 
 // --- Mock Data for the Example ---
 const candidate = {

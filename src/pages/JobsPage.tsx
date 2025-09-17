@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { JobTable } from '@/features/jobs/components/JobTable';
 
 import type { Job } from '@/features/jobs/types';
+import { PaginationControls } from '@/features/jobs/components/PaginationControls';
 
 
 
@@ -14,19 +15,18 @@ export function JobsPage() {
   const [status, setStatus] = useState<'active' | 'archived' | 'all'>('all');
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filters, setFilters] = useState({ title: '', status: '' });
   
 
   // 2. Call the Data Hook
   const { data, isLoading, isError, isFetching } = useJobs({
-    search,
-    status,
     page,
-    pageSize: 1,
+    filters
   });
 
   // 3. Render Based on Fetching State
   const renderContent = () => {
-    if (isLoading) {
+    if (isLoading || isFetching) {
       // Show skeleton loaders on initial load
     //   return <TableSkeleton />;
       return "Loading........";
@@ -36,7 +36,6 @@ export function JobsPage() {
       return (
         <div className="text-center py-10 text-red-500">
           <p>Failed to load jobs. Please try again later.</p>
-          <p> Error { isError}</p>
         </div>
       );
     }
@@ -44,12 +43,14 @@ export function JobsPage() {
     if (data) {
         console.log("Data ", data)
       return (
+        <div className='overflow-y-auto'>
         <JobTable
           jobs={data.jobs as Job[]}
-          // page={page}
-          // setPage={setPage}
-          // totalPages={data.totalPages}
+          currentPage={data.currentPage}
+            totalPages={data.totalPages}
+            setPage={setPage}
         />
+        </div>
       );
     }
 

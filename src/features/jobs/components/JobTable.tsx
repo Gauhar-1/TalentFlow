@@ -1,14 +1,15 @@
 
-import type { Job, JobsProps } from '../types';
+import type { Job, PaginatedJobsResponse } from '../types';
 import { useState } from 'react';
 import { arrayMove } from '@dnd-kit/sortable';
 import { closestCenter, DndContext, DragOverlay, PointerSensor, useSensor, useSensors, type DragEndEvent, type DragStartEvent, } from '@dnd-kit/core';
 import { DraggableJobRow, JobListDnD } from './JobsListDnD';
 import { Table } from '@/components/shared/Table';
+import { PaginationControls } from './PaginationControls';
 
 const jobHeaders = ['Title', 'Slug', 'Status', 'Tags' ];
 
-export const JobTable = ({ jobs} : JobsProps)=>{
+export const JobTable = ({ jobs, currentPage, totalPages, setPage } : PaginatedJobsResponse)=>{
     const [ jobsData , setJobsData ] = useState<Job[]>(jobs || []);
   const [ activeJob , setActiveJob ] = useState<Job | null>(null);
 
@@ -71,6 +72,11 @@ export const JobTable = ({ jobs} : JobsProps)=>{
                 <DraggableJobRow job={activeJob} />                              ) : null}
                </DragOverlay>
        </DndContext>
+       <PaginationControls
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
          </Table>
     )
 }

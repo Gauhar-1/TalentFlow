@@ -8,7 +8,7 @@ export interface Job {
 }
 
 export interface JobsProps {
-    jobs: Job[];
+    jobs: Job[],
 }
 
 export interface JobProp {
@@ -25,4 +25,26 @@ export interface UseJobsProps {
     search?: string;
     page?: number;
     pageSize?: number;
+}
+
+export interface JobFilters {
+    title?: string;
+    status?: string;
+}
+
+export interface PaginatedJobsResponse {
+    jobs: Job[],
+    totalPages: number,
+    currentPage: number;
+    setPage: (page: number) => void;
+}
+
+export interface AllJobsResponse {
+    jobs: Job[];
+}
+
+export interface UseJobsOptions {
+    page?: number;
+    filters?: JobFilters;
+    fetchAll?: boolean;
 }

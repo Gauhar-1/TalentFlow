@@ -1,15 +1,12 @@
-import { KanbanBoard } from '@/features/candidates/components/KanbanBoard';
-import { VirtualizedList } from '@/features/candidates/components/VirtualizedList';
 import { useCandidates } from '@/features/candidates/hooks/useCandidates';
 import type { Candidate } from '@/features/candidates/types';
 import { useJobs } from '@/features/jobs/hooks/useJobs';
 import type { Job } from '@/features/jobs/types';
-import { Briefcase, Users, Clock, Eye, Edit, Share2, MoreVertical } from 'lucide-react'; // Example icons
+import {  Edit, Share2 } from 'lucide-react'; 
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { AssessmentBuilder } from './AssessmentBuilderPage';
 
-// --- Mock Data for the HR Dashboard ---
+
 
 const jobDetails = {
     id: '101',
@@ -19,18 +16,6 @@ const jobDetails = {
     hiringManager: 'Jane Doe',
 };
 
-// const applicants = [
-//     { id: 'c1', name: 'Alice Johnson', stage: 'Assessment', appliedDate: '2025-09-15' },
-//     { id: 'c2', name: 'Bob Williams', stage: 'Phone Screen', appliedDate: '2025-09-14' },
-//     { id: 'c3', name: 'Charlie Brown', stage: 'New Applicant', appliedDate: '2025-09-16' },
-//     { id: 'c4', name: 'Diana Prince', stage: 'Interview', appliedDate: '2025-09-12' },
-// ];
-
-const jobDescription = {
-    // The public-facing details can be in a separate tab
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...',
-    tags: ['React', 'TypeScript', 'Next.js', 'Tailwind CSS', 'GraphQL', 'Jest', 'CI/CD']
-};
 
 const findJobInList = (jobs: Job[], id: string): Job | undefined => {
   return jobs?.find(j => j.id === id);
@@ -39,7 +24,7 @@ const findJobInList = (jobs: Job[], id: string): Job | undefined => {
 
 const JobDetailHRView = () => {
   const { jobid } = useParams<{ jobid: string }>();
-  const { data: allJobs, isLoading: isLoadingJobs, isError } = useJobs();
+  const { data: allJobs, isLoading: isLoadingJobs, isError } = useJobs({ fetchAll : true });
   const { data: allApplicants } = useCandidates();
   
   
