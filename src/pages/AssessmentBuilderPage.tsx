@@ -44,9 +44,6 @@ export const SAMPLE_ASSESSMENT: Assessment = {
 
 export const AssessmentBuilder = ()=>{
 
-
-   
-
     return (
       <AssessmentBuilderProvider>
         <div className="builder-container">

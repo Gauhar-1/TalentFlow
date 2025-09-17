@@ -4,6 +4,7 @@ import { KanbanColumns } from "./KanbanColumn"
 import type { Candidate, CandidatesProps, CandidateStages } from "../types"
 import {  DndContext, DragOverlay, PointerSensor, rectIntersection, useSensor, useSensors, type DragEndEvent, type DragStartEvent } from "@dnd-kit/core"
 import { CandidateCard } from "./CandidateCard"
+import { Card, CardContent } from "@/components/ui/card"
 
 
 const candidatesStages = [
@@ -42,7 +43,7 @@ export const KanbanBoard = ({ candidatesData } : CandidatesProps) =>{
         if(!candidates) return grouped;
  
         // Change the "1" to job id 
-        const filteredCandidates = candidates.filter(c => c.jobId === 'd2438a35-d6f9-4438-9b12-68ce58b45b6e');
+        const filteredCandidates = candidates.slice(0, 20);
 
         filteredCandidates.forEach((candidate) => {
             if(candidate.stage in grouped){
@@ -104,8 +105,11 @@ export const KanbanBoard = ({ candidatesData } : CandidatesProps) =>{
 
 
     return (
-        <div>
-            <DndContext
+        <div className="px-16 py-8">
+            <div className=" text-3xl font-bold text-gray-600 flex justify-center mb-5 text-shadow-lg">Kanban Board</div>
+            <Card className="border-3 border-gray-400 shadow-lg p-0">
+                <CardContent>
+                    <DndContext
                sensors={sensors}
                onDragStart={handleStart}
                onDragEnd= {handleDragEnd}
@@ -123,6 +127,8 @@ export const KanbanBoard = ({ candidatesData } : CandidatesProps) =>{
                 ) : null}
             </DragOverlay>
             </DndContext>
+                </CardContent>
+            </Card>
         </div>
     )
 }

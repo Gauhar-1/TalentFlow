@@ -81,6 +81,7 @@ export const QuestionEditor = ({ question }: Props) =>{
                             <SelectItem value="single-choice">Single Choice</SelectItem>
                             <SelectItem value="multi-choice">Multi-Choice</SelectItem>
                             <SelectItem value="numeric">Numeric</SelectItem>
+                            <SelectItem value="file-upload">File-Upload</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>
