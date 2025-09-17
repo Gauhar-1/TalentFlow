@@ -20,8 +20,10 @@ export interface JobsApiResponse {
     totalPages: number;
 }
 
+export type Status = 'active' | 'archived' | 'all'
+
 export interface UseJobsProps {
-    status?: 'active' | 'archived' | 'all';
+    status?: Status;
     search?: string;
     page?: number;
     pageSize?: number;
@@ -37,6 +39,8 @@ export interface PaginatedJobsResponse {
     totalPages: number,
     currentPage: number;
     setPage: (page: number) => void;
+    handleSearch: (search: string)=> void;
+    handleStatus: (status: Status)=> void;
 }
 
 export interface AllJobsResponse {

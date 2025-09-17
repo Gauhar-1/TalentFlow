@@ -33,7 +33,7 @@ export const CandidateListPages = ()=>{
                     </div>
                 </div>
                 {listView == 'kanban' &&<KanbanBoard candidatesData={data.candidates}></KanbanBoard>}
-                {listView == 'list' && <VirtualizedList candidatesData= {data.candidates}></VirtualizedList>}
+                {listView == 'list' && <VirtualizedList />}
             </div>
         )
     }

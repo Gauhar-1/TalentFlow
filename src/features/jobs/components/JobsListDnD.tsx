@@ -20,16 +20,16 @@ const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
     return (
         <div ref={setNodeRef} style={style} {...attributes} {...listeners} className={`flex justify-around mx-6 border-2  rounded-x shadow-lg transition-shadow cursor-grab active:cursor-grabbing font-semibold `}>
                 <div className='bg-white  mx-0.5 flex justify-center p-2 flex-1 rounded-l-xl'>{job.title}</div>
-                <div className='bg-white  mx-0.5 flex justify-center p-2 flex-1 '>{job.slug}</div>
                 <div className='bg-white  mx-0.5 flex justify-center p-2 flex-1 '>{job.status}</div>
                 <div className='bg-white  mx-0.5 flex justify-center p-2 flex-1  '>{job.tags}</div>
+                <div className='bg-white  mx-0.5 flex justify-center p-2 flex-1 '>{job.slug}</div>
               </div>
     )
 }
 
 export const JobListDnD = ({ jobs } : JobsProps)=>{
      return (
-        <div className="flex flex-col gap-2 h-[500px] overflow-y-auto">
+        <div className="flex flex-col gap-2 max-h-[350px] overflow-y-auto">
             <SortableContext items={jobs.map(j => j.id)}>
             {jobs.map(job => (
                 <DraggableJobRow key={job.id} job={job} />

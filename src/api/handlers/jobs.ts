@@ -30,17 +30,23 @@ export const jobsHandlers = [
         const page = parseInt(url.searchParams.get('page') || '1');
         const title = url.searchParams.get('title');
         const status = url.searchParams.get('status');
+        const tags = url.searchParams.getAll('tags');
         
         try {
       let query = db.jobs.orderBy('order'); // Start with an ordered collection
 
-      // Apply filters if they exist
       if (status && status !== 'all') {
         query = query.filter(job => job.status === status);
       }
       
-      if (title) {
+      if (title && status !== '') {
         query = query.filter(job => job.title.toLowerCase().includes(title.toLowerCase()));
+      }
+
+      if(tags.length > 0) {
+        query = query.filter(job =>
+            tags.every(filterTag => job.tags.includes(filterTag))
+        );
       }
 
       const filteredJobs = await query.toArray();
