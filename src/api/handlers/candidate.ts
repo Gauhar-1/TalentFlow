@@ -81,13 +81,12 @@ export const candidateHandlers = [
 
                 const newStatus = stage.charAt(0).toUpperCase() +stage.slice(1);
 
-                // 2. Create a new timeline event for this stage change
                 const timelineEvent = {
                     candidateId,
                     status: newStatus,
                     actor: faker.person.fullName(),
                     notes: `The Candidate is moved to ${stage}`,
-                    date : (new Date()).toISOString(),
+                    date : (new Date()).toLocaleString(),
                 };
                 await db.timeline.add(timelineEvent);
             });

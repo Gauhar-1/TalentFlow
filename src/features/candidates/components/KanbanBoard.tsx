@@ -22,8 +22,8 @@ const candidatesStages = [
 
 export const KanbanBoard = () =>{
     const { jobId } = useParams();
-    const [ activeCandidate, setActiveCandidate ] = useState<Candidate | null>(null);
     const { data , isLoading, isError, error } = useCandidatesByJob(jobId || '');
+    const [ activeCandidate, setActiveCandidate ] = useState<Candidate | null>(null);
     const { mutate: changeCandidateStage, isPending } = useUpdateCandidateStage(jobId || '');
 
     const columns = useMemo(()=>{

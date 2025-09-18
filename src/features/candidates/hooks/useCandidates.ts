@@ -1,6 +1,6 @@
 import { useInfiniteQuery, useQuery, type QueryFunctionContext } from "@tanstack/react-query";
 import axios from "axios"
-import type { Candidate } from "../types";
+import type { Candidate, TimeLine } from "../types";
 
 
 
@@ -28,6 +28,19 @@ export const useCandidatesByJob = (jobId: string) => {
     });
 };
 
+export const useCandidatesById = (candidateId: string) => {
+    if(!candidateId) console.log("no job Id", candidateId);
+    return useQuery({
+        queryKey: ['candidates', 'all'], 
+        queryFn: fetchAllCandidates, 
+        select: (allCandidates) => {
+            console.log("all candidate", allCandidates);
+           return allCandidates?.candidates?.filter((c: Candidate) => c.id === candidateId)
+        },
+        enabled: !!candidateId, 
+    });
+};
+
 type CandidatesQueryKey = readonly ['candidates', 'infinite', string];
 
 const fetchCandidates = async( context: QueryFunctionContext<CandidatesQueryKey>) => {
@@ -51,3 +64,24 @@ export const useInfiniteCandidates = (filter : string) =>{
         getNextPageParam: (lastPage) => lastPage.nextCursor,
     });
 }
+
+const getCandidateTimeline = async ( candidateId : string) => {
+
+    if (!candidateId) {
+        console.log("Couldn't find", candidateId);
+        return []; 
+    }
+
+    const response = await axios.get(`/api/candidates/${candidateId}/timeline`);
+    return response.data;
+};
+
+export const useGetCandidateTimeline = (candidateId: string) => {
+    return useQuery<TimeLine[]>({
+        queryKey: ['timeline', candidateId],
+        
+        queryFn: () =>getCandidateTimeline(candidateId),
+        
+        enabled: !!candidateId,
+    });
+};

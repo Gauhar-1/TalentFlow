@@ -19,9 +19,9 @@ export interface CandidatesProps {
 }
 
 export type TimeLine = {
-     id: number, 
-    status: CandidateStages, 
-    date: Date, 
+     id: string, 
+    status: string, 
+    date: string, 
     notes: string, 
     actor: string
 }
