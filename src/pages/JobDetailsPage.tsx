@@ -126,7 +126,10 @@ const JobDetailHRView = () => {
             {activeTab === 'Applicants' &&<div className="p-4">
   <div className="flex p-4 justify-center gap-16 items-center mb-4">
     <Link to={`/candidates`} className="text font-semibold text-gray-900 border-2 py-4 px-8 rounded shadow-lg" aria-disabled>
-      Candidate List  
+      Virtualized List  
+    </Link>
+    <Link to={`/candidates/kanban/${job.id}`} className="text font-semibold text-gray-900 border-2 py-4 px-8 rounded shadow-lg" aria-disabled>
+      Kanban Board  
     </Link>
   </div>
   

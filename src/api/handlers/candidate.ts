@@ -18,8 +18,6 @@ export const candidateHandlers = [
 
             await delay(Math.random() * 1000 + 200);
 
-            console.log("Candidates: ", candidates);
-
             return HttpResponse.json({
                 candidates
             }, { status: 200 });
@@ -58,13 +56,14 @@ export const candidateHandlers = [
     }
   }),
 
-   http.patch('/candidates/:id', async ({ request, params }) => {
+   http.patch(`${BASE_URL}/:id`, async ({ request, params }) => {
         await randomDelay();
         if (shouldError()) {
             console.error('[MSW] Simulating 500 Internal Server Error for PATCH /candidates/:id');
             return HttpResponse.json({ error: 'A server error occurred, please try again.' }, { status: 500 });
         }
 
+        console.log("called");
         const candidateId = params.id as string;
 
         try {
@@ -105,7 +104,7 @@ export const candidateHandlers = [
         }
     }),
 
-    http.get('/candidates/:id/timeline', async ({ params }) => {
+    http.get(`${BASE_URL}/:id/timeline`, async ({ params }) => {
         await randomDelay();
 
         const candidateId = params.id as string;

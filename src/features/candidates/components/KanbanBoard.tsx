@@ -1,10 +1,14 @@
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { KanbanColumns } from "./KanbanColumn"
 import type { Candidate, CandidatesProps, CandidateStages } from "../types"
 import {  DndContext, DragOverlay, PointerSensor, rectIntersection, useSensor, useSensors, type DragEndEvent, type DragStartEvent } from "@dnd-kit/core"
 import { CandidateCard } from "./CandidateCard"
 import { Card, CardContent } from "@/components/ui/card"
+import { useUpdateCandidateStage } from "../hooks/useMutations"
+import { useParams } from "react-router-dom"
+import {  useCandidatesByJob } from "../hooks/useCandidates"
+
 
 
 const candidatesStages = [
@@ -16,12 +20,11 @@ const candidatesStages = [
   'rejected',
 ]
 
-
-
-export const KanbanBoard = ({ candidatesData } : CandidatesProps) =>{
-
-    const [ candidates , setCandidates ] = useState<Candidate[]>(candidatesData || []);
+export const KanbanBoard = () =>{
+    const { jobId } = useParams();
     const [ activeCandidate, setActiveCandidate ] = useState<Candidate | null>(null);
+    const { data , isLoading, isError, error } = useCandidatesByJob(jobId || '');
+    const { mutate: changeCandidateStage, isPending } = useUpdateCandidateStage(jobId || '');
 
     const columns = useMemo(()=>{
         return candidatesStages.map( stage => ({
@@ -40,19 +43,17 @@ export const KanbanBoard = ({ candidatesData } : CandidatesProps) =>{
           rejected: [],
         };
 
-        if(!candidates) return grouped;
+        if(!data) return grouped;
  
-        // Change the "1" to job id 
-        const filteredCandidates = candidates.slice(0, 20);
 
-        filteredCandidates.forEach((candidate) => {
+        data.forEach((candidate : Candidate) => {
             if(candidate.stage in grouped){
                 grouped[candidate.stage as CandidateStages].push(candidate);
             }
         });
 
         return grouped;
-    },[candidates]);
+    },[data]);
 
     const sensors = useSensors(
         useSensor(PointerSensor, {
@@ -65,8 +66,8 @@ export const KanbanBoard = ({ candidatesData } : CandidatesProps) =>{
     const handleStart = (event: DragStartEvent) =>{
         setActiveCandidate(null);
         const { active } = event;
-        if(candidates) {
-            const candidate = candidates.find(c => c.id === active.id);
+        if(data) {
+            const candidate = data.find((c : Candidate) => c.id === active.id);
             if(candidate){
                 setActiveCandidate(candidate);
             }
@@ -76,8 +77,9 @@ export const KanbanBoard = ({ candidatesData } : CandidatesProps) =>{
     const handleDragEnd = async (event: DragEndEvent) =>{
 
         const { active, over } = event;
+        console.log("Event", event);
 
-        if(!over || !candidates) return ;
+        if(!over || !data) return ;
 
         let overId = over.id;
         const overIsColumn = candidatesStages.includes(overId as CandidateStages);
@@ -92,17 +94,18 @@ export const KanbanBoard = ({ candidatesData } : CandidatesProps) =>{
 
         if(activeContainer && overContainer && activeContainer !== overContainer){
             const candidateId = active.id as string;
-            const candidate = candidates.find(c => c.id === candidateId);
+            console.log("CandidateId", candidateId)
+            console.log("Satge", overId);
 
-            if(candidate) {
-                const newCandidates = candidates.map(c => c.id === candidateId ? { ...c, stage: overContainer }: c);
-
-                setCandidates(newCandidates);
-            }
+            changeCandidateStage({ candidateId, stage: overContainer })
         }
     }
 
 
+    if (isLoading || isPending) return <div className="text-center p-10">Loading Kanban Board...</div>;
+    if (isError) return <div className="text-center p-10 text-red-600">Error loading candidates.: {error.message}</div>;
+
+    
 
     return (
         <div className="px-16 py-8">

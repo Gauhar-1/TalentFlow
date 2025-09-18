@@ -1,29 +1,32 @@
 import { useInfiniteQuery, useQuery, type QueryFunctionContext } from "@tanstack/react-query";
 import axios from "axios"
+import type { Candidate } from "../types";
 
 
 
 const fetchAllCandidates = async() =>{
-    try{
-        const response = await axios.get(`/api/candidates/all`);
-
-        if(!response.data){
-            throw new Error('An error occurred while fetching the jobs');
-        }
-
-        return response.data;
-    }
-    catch(error){
-        console.error("Error occurred while fetching the candidates", error)
-    }
+    const response = await axios.get(`/api/candidates/all`);
+    return response.data;
 }
 
 export const useCandidates = ()=>{
     return useQuery ({
-        queryKey: ['candidates', {}],
-        queryFn: () => fetchAllCandidates(),
+        queryKey: ['candidates', 'all'],
+        queryFn: fetchAllCandidates,
     })
 }
+
+export const useCandidatesByJob = (jobId: string) => {
+    if(!jobId) console.log("no job Id", jobId);
+    return useQuery({
+        queryKey: ['candidates', jobId], 
+        queryFn: fetchAllCandidates, 
+        select: (allCandidates) => {
+           return allCandidates?.candidates?.filter((c: Candidate) => c.jobId === jobId)
+        },
+        enabled: !!jobId, // Only run if jobId is present
+    });
+};
 
 type CandidatesQueryKey = readonly ['candidates', 'infinite', string];
 
