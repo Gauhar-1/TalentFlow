@@ -34,7 +34,6 @@ export const useCandidatesById = (candidateId: string) => {
         queryKey: ['candidates', 'all'], 
         queryFn: fetchAllCandidates, 
         select: (allCandidates) => {
-            console.log("all candidate", allCandidates);
            return allCandidates?.candidates?.filter((c: Candidate) => c.id === candidateId)
         },
         enabled: !!candidateId, 

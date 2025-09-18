@@ -10,8 +10,8 @@ import {
     AlertDialogHeader, 
     AlertDialogTitle, 
     AlertDialogTrigger 
-} from "../ui/alert-dialog";
-import { Input } from "../ui/input"; 
+} from "../../../components/ui/alert-dialog";
+import { Input } from "../../../components/ui/input"; 
 import type { Section } from "@/features/assessments/types";
 import { useAssessmentBuilder } from "@/features/assessments/context/AssessmentContext";
 

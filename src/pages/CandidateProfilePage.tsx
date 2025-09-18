@@ -4,48 +4,16 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
 import { TimeLineEvents } from '@/features/candidates/components/TimeLineEvents';
 import { useCandidatesById } from '@/features/candidates/hooks/useCandidates';
-import { Phone, Mail, Linkedin, FileText, Plus } from 'lucide-react';
-import  { useState } from 'react';
+import { Phone, Mail, Linkedin, FileText, } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
 const candidate = {
   id: 'c1',
   currentRole: 'Senior Frontend Developer at TechCorp',
-  phone: '+1 (555) 123-4567',
+  phone: '+91 12345 67890',
   linkedin: 'https://linkedin.com/in/alicejohnson',
   appliedFor: 'Lead Frontend Engineer',
 };
-
-const timelineEvents = [
-  { 
-    id: 4, 
-    status: 'Interview Scheduled', 
-    date: '2025-09-17', 
-    notes: 'Scheduled for a technical interview with John Smith on Sep 19.', 
-    actor: 'Jane Doe' 
-  },
-  { 
-    id: 3, 
-    status: 'Assessment Completed', 
-    date: '2025-09-16', 
-    notes: 'Score: 88/100. Strong results in React and TypeScript sections.', 
-    actor: 'System' 
-  },
-  { 
-    id: 2, 
-    status: 'Moved to Assessment', 
-    date: '2025-09-15', 
-    notes: 'Candidate passed initial screening. Assessment link sent.', 
-    actor: 'Jane Doe' 
-  },
-  { 
-    id: 1, 
-    status: 'Applied', 
-    date: '2025-09-15', 
-    notes: 'Applied via company website.', 
-    actor: 'Alice Johnson' 
-  },
-];
 
 const CandidateProfilePage = () => {
 
@@ -82,8 +50,8 @@ const CandidateProfilePage = () => {
               <div className="flex items-center gap-3 font-mono text-gray-600">
                 <Phone size={16} /> <span>{candidate.phone}</span>
               </div>
-              <a href={candidate.linkedin} target="_blank" rel="noopener noreferrer" className="flex font-mono items-center gap-3 text-gray-600 hover:text-blue-600">
-                <Linkedin size={16} /> <span>LinkedIn Profile</span>
+              <a href={`https://www.linkedin.com/in/${data[0].name.replaceAll(' ', '-')}`} target="_blank" rel="noopener noreferrer" className="flex font-mono items-center gap-3 text-gray-600 hover:text-blue-600">
+                <Linkedin size={16} /> <span className='text-xs'>https://www.linkedin.com/in/{data[0].name.replaceAll(' ', '-')}</span>
               </a>
             </div>
             <div className="border-t-2 border-gray-500 my-6"></div>

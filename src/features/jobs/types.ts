@@ -2,7 +2,7 @@ export interface Job {
     id:  string;
     title: string;
     slug: string;
-    status: 'active' | 'archieved';
+    status: 'active' | 'archived';
     tags: string[];
     order: number;
 }

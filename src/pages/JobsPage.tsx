@@ -1,11 +1,8 @@
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
 import { JobTable } from '@/features/jobs/components/JobTable';
+import { CreateJob } from '@/features/jobs/components/CreateJobs';
 
 export function JobsPage() {
-  
-  const [isModalOpen, setIsModalOpen] = useState(false);
   
   return (
     <div className="mx-auto  p-8 w-screen">
@@ -14,7 +11,7 @@ export function JobsPage() {
           <h1 className="text-3xl font-bold tracking-tight">Jobs Board</h1>
           <p className="text-muted-foreground">Manage your company's job openings.</p>
         </div>
-        <Button onClick={() => setIsModalOpen(true)}>Create Job</Button>
+        <CreateJob>Create Job</CreateJob>
       </header>
       <div><JobTable
         /></div>

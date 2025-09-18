@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { QuestionEditor } from "./QuestionEditor";
-import { CreateAssessment } from "@/components/shared/CreateAssessment";
+import { CreateAssessment } from "@/features/assessments/components/CreateAssessment";
 import { useAssessmentBuilder } from "../context/AssessmentContext";
 import { Button } from "@/components/ui/button";
 import { useEffect} from "react";

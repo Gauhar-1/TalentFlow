@@ -1,18 +1,17 @@
 
 import type { Job, Status } from '../types';
 import { useEffect, useState } from 'react';
-import { arrayMove } from '@dnd-kit/sortable';
 import { closestCenter, DndContext, DragOverlay, PointerSensor, useSensor, useSensors, type DragEndEvent, type DragStartEvent, } from '@dnd-kit/core';
 import { DraggableJobRow, JobListDnD } from './JobsListDnD';
 import { Table } from '@/components/shared/Table';
 import { PaginationControls } from './PaginationControls';
 import { useJobs } from '../hooks/useJobs';
+import { useReorderJobs } from '../hooks/useMutations';
 
 const jobHeaders = ['Title', 'Status', 'Tags', 'Actions' ];
 const jobStatus = ['all', 'active', 'archived' ];
 
 export const JobTable = ()=>{
-    const [ jobsData , setJobsData ] = useState<Job[]>([]);
   const [ activeJob , setActiveJob ] = useState<Job | null>(null);
   const [page, setPage] = useState(1);
   const [filters, setFilters] = useState({ title: '', status: '' });
@@ -21,20 +20,11 @@ export const JobTable = ()=>{
     page,
     filters
   });
-  
-   useEffect(() => {
-        if (data?.jobs) {
-            setJobsData(data.jobs);
-        }
-    }, [data]);
+  const { mutate: reorderJobs, isPending } = useReorderJobs();
 
     useEffect(()=>{
         const timer = setTimeout(()=>{
-            setFilters(prev => {
-              const filter = {...prev, title: searchTerm}
-  
-              return filter;
-            }) 
+            setFilters(prev => ({...prev, title: searchTerm})) 
         },500)
 
         return () => clearTimeout(timer);
@@ -50,8 +40,8 @@ export const JobTable = ()=>{
   
       const handleStart = (event: DragStartEvent) =>{
           const { active } = event;
-          if(jobsData) {
-              const job = jobsData.find(j => j.id === active.id);
+          if(data) {
+              const job = data.jobs.find(j => j.id === active.id);
               if(job){
                   setActiveJob(job);
               }
@@ -60,28 +50,25 @@ export const JobTable = ()=>{
   
       const handleDragEnd = async (event: DragEndEvent) =>{
            setActiveJob(null)
+           if(!data) return;
   
           const { active, over } = event;
   
           if(!over || active.id === over.id) return ;
   
-          const oldIndex = jobsData.findIndex((job) => job.id === active.id);
-          const newIndex = jobsData.findIndex((job) => job.id === over.id);
+          const oldIndex = data.jobs.findIndex((job) => job.id === active.id);
+          const newIndex = data.jobs.findIndex((job) => job.id === over.id);
 
           if(oldIndex === -1 || newIndex === -1) return;
+
+          const fromOrder = data.jobs[oldIndex].order;
+          const toOrder = data.jobs[newIndex].order;
           
-        let reorderedJobs = arrayMove(jobsData, oldIndex, newIndex);
-
-        console.log("OverId", over.id);
-        console.log("active", active.id);
-
-        const updatedJobsWithOrder = reorderedJobs.map((job, index) => ({
-    ...job,
-    order: index + 1, 
-}));
-
-          setJobsData(updatedJobsWithOrder);
-          console.log("Updated: ", updatedJobsWithOrder);
+        reorderJobs({
+            jobId: active.id as string,
+            fromOrder,
+            toOrder,
+        });
       }
 
 
@@ -93,7 +80,7 @@ export const JobTable = ()=>{
 
 
   const renderContent = () => {
-    if (isLoading || isFetching) {
+    if (isLoading || isFetching || isPending) {
       // Show skeleton loaders on initial load
     //   return <TableSkeleton />;
       return "Loading........";
@@ -115,7 +102,7 @@ export const JobTable = ()=>{
        onDragEnd={handleDragEnd}
        collisionDetection={closestCenter}
        >
-              <JobListDnD jobs={jobsData}/>
+              <JobListDnD jobs={data?.jobs || []}/>
                <DragOverlay>
                   { activeJob ? (
                 <DraggableJobRow job={activeJob} />                              ) : null}
