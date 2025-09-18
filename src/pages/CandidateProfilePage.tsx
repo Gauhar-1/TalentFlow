@@ -1,5 +1,7 @@
 // src/pages/CandidateProfilePage.tsx
 
+import { ErrorPage } from '@/components/shared/ErrorPage';
+import { LoadingScreeen } from '@/components/shared/LoadinScreen';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
 import { TimeLineEvents } from '@/features/candidates/components/TimeLineEvents';
@@ -21,8 +23,8 @@ const CandidateProfilePage = () => {
   const { data , isLoading, isError, error } = useCandidatesById(id || '');
   
   
-    if (isLoading ) return <div className="text-center p-10">Loading Profile Page...</div>;
-    if (isError) return <div className="text-center p-10 text-red-600">Error loading candidates.: {error.message}</div>;
+    if (isLoading ) return <LoadingScreeen />
+    if (isError) return <ErrorPage>Error loading candidates.: {error.message}</ErrorPage>
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans p-4 sm:p-6 lg:p-8">

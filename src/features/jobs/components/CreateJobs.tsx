@@ -16,6 +16,7 @@ import { useState } from "react";
 import { SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useCreateJob } from "../hooks/useMutations";
 import type { Job } from "../types";
+import { LoadingScreeen } from "@/components/shared/LoadinScreen";
 
 
 export const CreateJob = ({ children }: { children: React.ReactNode }) => {
@@ -42,6 +43,8 @@ export const CreateJob = ({ children }: { children: React.ReactNode }) => {
             }
         });
     };
+
+    if(isPending) return <LoadingScreeen />
 
     return (
         <AlertDialog>

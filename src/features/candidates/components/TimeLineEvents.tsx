@@ -2,6 +2,8 @@ import { Plus } from "lucide-react"
 import { useEffect, useState } from "react";
 import type { TimeLine } from "../types";
 import { useGetCandidateTimeline } from "../hooks/useCandidates";
+import { LoadingScreeen } from "@/components/shared/LoadinScreen";
+import { ErrorPage } from "@/components/shared/ErrorPage";
 
 interface TimeLineProps  {
     candidateId : string;
@@ -34,8 +36,8 @@ export const TimeLineEvents =({ candidateId }: TimeLineProps)=>{
     setNote(''); 
   };
 
-  if(isLoading) return <div>Loading .....</div>
-  if(isError) return <div> Error.....{error.message}</div>
+  if(isLoading) return <LoadingScreeen />
+  if(isError) return <ErrorPage>Error.....{error.message}</ErrorPage>
     
     return (
         <div className="relative border-l-2 border-gray-200">

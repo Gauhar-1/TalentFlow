@@ -1,9 +1,11 @@
+import { ErrorPage } from '@/components/shared/ErrorPage';
+import { LoadingScreeen } from '@/components/shared/LoadinScreen';
 import { useCandidates } from '@/features/candidates/hooks/useCandidates';
 import type { Candidate } from '@/features/candidates/types';
 import { EditJob } from '@/features/jobs/components/EditJob';
 import { useJobs } from '@/features/jobs/hooks/useJobs';
 import type { Job } from '@/features/jobs/types';
-import {  Edit, Share2 } from 'lucide-react'; 
+import {   Share2 } from 'lucide-react'; 
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
@@ -44,16 +46,14 @@ const JobDetailHRView = () => {
   }, [jobid, allJobs, , allApplicants]); 
 
 
-  // Handle loading state from your useJobs hook
   if (isLoadingJobs) {
-    return <div>Loading job data...</div>;
+    return <LoadingScreeen />
   }
 
   if (isError) {
-    return <div>Error fetching jobs.</div>;
+    return <ErrorPage>Error fetching jobs.</ErrorPage>
   }
 
-  // Handle case where job is not found after loading
   if (!job) {
     return <div>Job not found.</div>;
   }

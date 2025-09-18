@@ -1,13 +1,15 @@
 
-import { useEffect, useMemo, useState } from "react"
+import {  useMemo, useState } from "react"
 import { KanbanColumns } from "./KanbanColumn"
-import type { Candidate, CandidatesProps, CandidateStages } from "../types"
+import type { Candidate,  CandidateStages } from "../types"
 import {  DndContext, DragOverlay, PointerSensor, rectIntersection, useSensor, useSensors, type DragEndEvent, type DragStartEvent } from "@dnd-kit/core"
 import { CandidateCard } from "./CandidateCard"
 import { Card, CardContent } from "@/components/ui/card"
 import { useUpdateCandidateStage } from "../hooks/useMutations"
 import { useParams } from "react-router-dom"
 import {  useCandidatesByJob } from "../hooks/useCandidates"
+import { LoadingScreeen } from "@/components/shared/LoadinScreen"
+import { ErrorPage } from "@/components/shared/ErrorPage"
 
 
 
@@ -22,7 +24,7 @@ const candidatesStages = [
 
 export const KanbanBoard = () =>{
     const { jobId } = useParams();
-    const { data , isLoading, isError, error } = useCandidatesByJob(jobId || '');
+    const { data , isLoading, isError } = useCandidatesByJob(jobId || '');
     const [ activeCandidate, setActiveCandidate ] = useState<Candidate | null>(null);
     const { mutate: changeCandidateStage, isPending } = useUpdateCandidateStage(jobId || '');
 
@@ -102,8 +104,8 @@ export const KanbanBoard = () =>{
     }
 
 
-    if (isLoading || isPending) return <div className="text-center p-10">Loading Kanban Board...</div>;
-    if (isError) return <div className="text-center p-10 text-red-600">Error loading candidates.: {error.message}</div>;
+    if (isLoading || isPending) return <LoadingScreeen />
+    if (isError) return <ErrorPage>Error loading candidates. Try Again Later</ErrorPage>
 
     
 

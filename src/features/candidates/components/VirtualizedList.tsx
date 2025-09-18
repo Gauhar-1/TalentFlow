@@ -3,6 +3,8 @@ import { Table } from "@/components/shared/Table"
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { useInfiniteCandidates } from "../hooks/useCandidates";
+import { LoadingScreeen } from "@/components/shared/LoadinScreen";
+import { ErrorPage } from "@/components/shared/ErrorPage";
 
 const candidateHeaders = ['Name', 'Email', 'Stage', 'Action'];
 const candidateStatus = [ 'all', 'applied' , 'screen' , 'tech' , 'offer' , 'hired' , 'rejected'];
@@ -45,8 +47,8 @@ export const VirtualizedList = () =>{
 
     
 
-     if (isLoading) return <div>Loading candidates...</div>;
-    if (isError) return <div>Error loading candidates.</div>;
+     if (isLoading) return <LoadingScreeen />
+    if (isError) return <ErrorPage>Error loading candidates.</ErrorPage>
 
     return (
         <div className="px-16 py-8">

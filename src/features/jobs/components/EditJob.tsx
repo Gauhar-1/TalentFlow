@@ -16,6 +16,7 @@ import { SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } fr
 import type { Job } from "../types";
 import { useUpdateJob } from "../hooks/useMutations";
 import { Edit } from "lucide-react";
+import { LoadingScreeen } from "@/components/shared/LoadinScreen";
 
 
 export const EditJob = ({ children , job }: { children: React.ReactNode, job: Job }) => {
@@ -24,7 +25,7 @@ export const EditJob = ({ children , job }: { children: React.ReactNode, job: Jo
     const [status, setStatus] = useState<'active' | 'archived' | undefined>(undefined);
     const [tags, setTags] = useState('');
 
-    const { mutate: update } = useUpdateJob();
+    const { mutate: update, isPending } = useUpdateJob();
 
     useEffect(() => {
         if (job) {
@@ -41,6 +42,7 @@ export const EditJob = ({ children , job }: { children: React.ReactNode, job: Jo
         update({ jobId, updates: payload });
     };
     
+    if(isPending) return <LoadingScreeen />
 
     return (
         <AlertDialog>

@@ -20,7 +20,6 @@ export const QuestionEditor = ({ question }: Props) =>{
     }
 
      const handleTypeChange = (value: Question['type']) => {
-        // When changing type, initialize options array if it's a choice type
         const newProps = (value === 'single-choice' || value === 'multi-choice') 
             ? { options: question.options || [] } 
             : { options: undefined };
@@ -38,7 +37,7 @@ export const QuestionEditor = ({ question }: Props) =>{
         if (newOption.trim() === '') return;
         const updatedOptions = [...(question.options || []), newOption];
         handleUpdateQuestion({ ...question, options: updatedOptions });
-        setNewOption(''); // Clear the input
+        setNewOption('');
     }
     
     const handleDeleteOption = (index: number) => {
@@ -135,7 +134,6 @@ export const QuestionEditor = ({ question }: Props) =>{
             </CardFooter>}
             </Card>
 
-            {/* Add inputs for other properties: type, options, etc. here */}
         </div>
     )
 }

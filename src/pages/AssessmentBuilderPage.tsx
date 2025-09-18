@@ -1,3 +1,4 @@
+import { LoadingScreeen } from "@/components/shared/LoadinScreen";
 import { ConfigurationPanel } from "../features/assessments/components/ConfigurationPanel";
 import { PreviewPanel } from "../features/assessments/components/PreviewPanel";
 import { AssessmentBuilderProvider, useAssessmentBuilder } from "@/features/assessments/context/AssessmentContext";
@@ -6,7 +7,7 @@ import { AssessmentBuilderProvider, useAssessmentBuilder } from "@/features/asse
 const AssessmentBuilderUi = ()=>{
   const { isSaving, isLoading, assessment } =useAssessmentBuilder();
 
-  if(isSaving || isLoading || !assessment) return <div>Loadin....</div>
+  if(isSaving || isLoading || !assessment) return <LoadingScreeen />
 
   return (
     <div className="builder-container">

@@ -46,7 +46,6 @@ export const QuestionRenderer = ({ question, onAnswerChange, currentResponse, al
                 );
              case 'file-upload':
                 return <div><input type="file" /> <small>(File upload stub)</small></div>  
-                // Add 'multi-choice' and other types here
              default: 
              return <p>Unsupported question type: {question.type}</p>        
         }

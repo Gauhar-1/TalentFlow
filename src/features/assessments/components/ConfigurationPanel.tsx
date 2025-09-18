@@ -3,10 +3,9 @@ import { QuestionEditor } from "./QuestionEditor";
 import { CreateAssessment } from "@/features/assessments/components/CreateAssessment";
 import { useAssessmentBuilder } from "../context/AssessmentContext";
 import { Button } from "@/components/ui/button";
-import { useEffect} from "react";
 
 
-export const ConfigurationPanel = (props : any) =>{
+export const ConfigurationPanel = () =>{
     const {assessment , selectedQuestion, selectedSectionTitle, addQuestion } = useAssessmentBuilder();
     
 

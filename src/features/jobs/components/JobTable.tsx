@@ -7,6 +7,8 @@ import { Table } from '@/components/shared/Table';
 import { PaginationControls } from './PaginationControls';
 import { useJobs } from '../hooks/useJobs';
 import { useReorderJobs } from '../hooks/useMutations';
+import { LoadingScreeen } from '@/components/shared/LoadinScreen';
+import { ErrorPage } from '@/components/shared/ErrorPage';
 
 const jobHeaders = ['Title', 'Status', 'Tags', 'Actions' ];
 const jobStatus = ['all', 'active', 'archived' ];
@@ -81,16 +83,12 @@ export const JobTable = ()=>{
 
   const renderContent = () => {
     if (isLoading || isFetching || isPending) {
-      // Show skeleton loaders on initial load
-    //   return <TableSkeleton />;
-      return "Loading........";
+      return <LoadingScreeen />
     }
 
     if (isError) {
       return (
-        <div className="text-center py-10 text-red-500">
-          <p>Failed to load jobs. Please try again later.</p>
-        </div>
+        <ErrorPage>Failed to load jobs. Please try again later.</ErrorPage>
       );
     }
 

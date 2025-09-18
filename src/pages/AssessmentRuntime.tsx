@@ -9,75 +9,75 @@ import { useMemo, useState, type FormEvent } from "react";
 
 export const SAMPLE_ASSESSMENT: Assessment = {
 
-  "id": "job-123-assessment",
+     "id": "job-123-assessment",
 
-  "jobTitle": "Senior Frontend Developer",
+     "jobTitle": "Senior Frontend Developer",
 
-  "sections": [
+     "sections": [
 
-    {
+        {
 
-      "id": "sec-1",
+            "id": "sec-1",
 
-      "title": "Basic Information",
+            "title": "Basic Information",
 
-      "questions": [
+             "questions": [
 
-        {
+                 {
 
-          "id": "q-1",
+                    "id": "q-1",
 
-          "label": "Full Name",
+                    "label": "Full Name",
 
-          "type": "short-text",
+                    "type": "short-text",
 
-          "validations": { "required": true, "maxLength": 100 }
+                    "validations": { "required": true, "maxLength": 100 }
 
-        },
+                },
 
-        {
+                {
 
-          "id": "q-2",
+                     "id": "q-2",
 
-          "label": "Are you legally authorized to work?",
+                    "label": "Are you legally authorized to work?",
 
-          "type": "single-choice",
+                    "type": "single-choice",
 
-          "options": ["Yes", "No"],
+                    "options": ["Yes", "No"],
 
-          "validations": { "required": true }
+                    "validations": { "required": true }
 
-        }
+                }
 
-      ]
+            ]
 
-    },
+        },
 
- {
+        {
 
- "id": "sec-2",
+            "id": "sec-2",
 
- "title": "Technical Skills",
+            "title": "Technical Skills",
 
- "questions": [
+            "questions": [
 
- {
+                {
 
-"id": "q-4",
+                    "id": "q-4",
 
-          "label": "Years of professional experience?",
+                    "label": "Years of professional experience?",
 
-          "type": "numeric",
+                    "type": "numeric",
 
-          "validations": { "required": true, "range": { "min": 0, "max": 50 } }
+                    "validations": { "required": true, "range": { "min": 0, "max": 50 } }
 
-        }
+                }
 
-      ]
+            ]
 
-    }
+         }
 
-  ]
+    ]
 
 };
 
@@ -87,22 +87,17 @@ const validateResponses = (assessment: Assessment, responses: Record<string, any
 
     for (const question of allQuestions) {
         const response = responses[question.id];
-        // Determine if the question should be visible based on responses to other questions
         const isVisible = !question.conditions || question.conditions.every(c => responses[c.questionId] === c.value);
 
-        // Only validate visible questions
         if (!isVisible) continue;
 
-        // Required validation
         if (question.validations?.required && (response === undefined || response === null || response === '')) {
             errors[question.id] = 'This field is required.';
-            continue; // Stop further validation if required field is empty
+            continue; 
         }
 
-        // Return early if there's no response for a non-required field
         if (response === undefined || response === null || response === '') continue;
 
-        // MaxLength validation
         if (question.validations?.maxLength && String(response).length > question.validations.maxLength) {
             errors[question.id] = `Must be ${question.validations.maxLength} characters or less.`;
         }

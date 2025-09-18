@@ -1,13 +1,8 @@
 import {
   Card,
-  CardAction,
   CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import type { Candidate } from "../types";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities"
@@ -41,13 +36,13 @@ export const CandidateCard = ( {candidate} : CandidateProps)=>{
         <Card ref={setNodeRef} style={style} {...attributes} {...listeners} className="my-3 mr-1 shadow-lg transition-shadow cursor-grab active:cursor-grabbing">
     <CardContent>
        <div className="flex gap-2">
-         <Avatar className="w-10 h-10 border-1 mt-1 border-gray-500">
+         <Avatar className="w-10 h-10 border-1  border-gray-500">
             <AvatarFallback className="bg-gray-200 ">{initials}</AvatarFallback>
          </Avatar>
 
        <div className="flex-1 flex flex-col items-center">
-           <div className="font-semibold">{candidate.name}</div>
-           <p className="text-sm text-gray-500">{candidate.email}</p>
+           <div className="font-semibold text-sm">{candidate.name}</div>
+           <p className="text-xs text-gray-500">{candidate.email}</p>
        </div>
     </div>
   </CardContent>
