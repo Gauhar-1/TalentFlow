@@ -52,3 +52,5 @@ export interface UseJobsOptions {
     filters?: JobFilters;
     fetchAll?: boolean;
 }
+
+export type BadgeVariant =  'outline'| 'default' | 'destructive' | 'secondary';

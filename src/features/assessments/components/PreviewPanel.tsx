@@ -5,14 +5,13 @@ import { useAssessmentBuilder } from "../context/AssessmentContext";
 
 
 export const PreviewPanel = () =>{
-    const { assessment, setSelectedQuestionId, selectedQuestionId,selectedSectionTitle, setSelectedSectionTitle} = useAssessmentBuilder();
+    const { assessment,  setSelectedQuestionId, selectedQuestionId,selectedSectionTitle, setSelectedSectionTitle} = useAssessmentBuilder();
 
     const  sections : string[] = useMemo(()=>{
         const sectionTitles = assessment.sections.map(s =>  s.title);
 
         return sectionTitles;
     },[assessment])
-    
 
     return (
         <div className="flex flex-col gap-3">

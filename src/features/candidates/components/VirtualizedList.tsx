@@ -2,7 +2,6 @@ import { Row } from "@/components/shared/Row"
 import { Table } from "@/components/shared/Table"
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useVirtualizer } from '@tanstack/react-virtual'
-import { useJobs } from "@/features/jobs/hooks/useJobs";
 import { useInfiniteCandidates } from "../hooks/useCandidates";
 
 const candidateHeaders = ['Name', 'Email', 'Stage', 'Action'];
@@ -10,7 +9,6 @@ const candidateStatus = [ 'all', 'applied' , 'screen' , 'tech' , 'offer' , 'hire
 
 export const VirtualizedList = () =>{
     const parentRef = useRef<HTMLDivElement>(null);
-    const { data } = useJobs({ fetchAll: true});
     const [ stageFilter, setStageFilter ] = useState('all');
     const [ searchTerm, setSearchTerm ] = useState('');
 

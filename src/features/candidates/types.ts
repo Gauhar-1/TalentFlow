@@ -17,3 +17,11 @@ export type CandidateStages = 'applied' | 'screen' | 'tech' | 'offer' | 'hired' 
 export interface CandidatesProps {
     candidatesData : Candidate[]
 }
+
+export type TimeLine = {
+     id: number, 
+    status: CandidateStages, 
+    date: Date, 
+    notes: string, 
+    actor: string
+}

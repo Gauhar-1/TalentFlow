@@ -4,7 +4,7 @@ import { useJobs } from '@/features/jobs/hooks/useJobs';
 import type { Job } from '@/features/jobs/types';
 import {  Edit, Share2 } from 'lucide-react'; 
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 
 
@@ -26,6 +26,7 @@ const JobDetailHRView = () => {
   const { jobid } = useParams<{ jobid: string }>();
   const { data: allJobs, isLoading: isLoadingJobs, isError } = useJobs({ fetchAll : true });
   const { data: allApplicants } = useCandidates();
+  const navigate = useNavigate();
   
   
   const [activeTab, setActiveTab] = useState<'assessment' | "Applicants">('Applicants');
@@ -79,20 +80,20 @@ const JobDetailHRView = () => {
 
         {/* --- Key Metrics --- */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white p-4 rounded-lg shadow-sm">
-            <p className="text-sm text-gray-500">Total Applicants</p>
+          <div className="bg-gray-200 p-4 rounded-lg shadow-lg">
+            <p className="text-sm text-gray-700">Total Applicants</p>
             <p className="text-2xl font-bold">{applicants?.length}</p>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow-sm">
-            <p className="text-sm text-gray-500">New This Week</p>
+          <div className="bg-gray-200 p-4 rounded-lg shadow-lg">
+            <p className="text-sm text-gray-700">New This Week</p>
             <p className="text-2xl font-bold">2</p>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow-sm">
-            <p className="text-sm text-gray-500">In Assessment</p>
+          <div className="bg-gray-200 p-4 rounded-lg shadow-lg">
+            <p className="text-sm text-gray-700">In Assessment</p>
             <p className="text-2xl font-bold">{applicants?.filter(a => a.stage === 'screen').length}</p>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow-sm">
-            <p className="text-sm text-gray-500">Days Open</p>
+          <div className="bg-gray-200 p-4 rounded-lg shadow-lg">
+            <p className="text-sm text-gray-700">Days Open</p>
             <p className="text-2xl font-bold">28</p>
           </div>
         </div>
@@ -100,9 +101,10 @@ const JobDetailHRView = () => {
         <div className="bg-white rounded-lg shadow-sm">
          
             <div className="p-6">
-               <h3 className="text-xl font-semibold text-gray-800 mb-3">Job Description</h3>
-              <p className="text-gray-600 leading-relaxed">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, assumenda? Veritatis excepturi quidem architecto possimus et repudiandae deleniti, a, impedit iusto ab quisquam atque minus recusandae labore id molestiae repellat officia culpa debitis obcaecati laborum incidunt saepe esse magnam. Corporis, distinctio aliquam quas esse ex dolore perferendis illo consectetur, est tempora dignissimos? Similique magnam aliquam numquam enim fugiat in rem perferendis, tenetur temporibus qui, iusto officiis voluptate facere, dolore aperiam! Dolor est praesentium architecto voluptatem tenetur quo eveniet aperiam repellat perferendis labore maiores ipsum et enim soluta saepe, odio corrupti voluptate delectus nam. Deserunt laborum expedita nemo veniam illum repellendus.</p>
-              <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-4">Skills & Requirements</h3>
+               <h3 className="text-xl font-semibold text-gray-800 mb-1 border-b-3 pb-3 border-gray-300 text-shadow-lg ">Job Description</h3>
+              <p className="text-gray-600 text-xs font-mono">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, assumenda? Veritatis excepturi quidem architecto possimus et repudiandae deleniti, a, impedit iusto ab quisquam atque minus recusandae labore id molestiae repellat officia culpa debitis obcaecati laborum incidunt saepe esse magnam. Corporis, distinctio aliquam quas esse ex dolore perferendis illo consectetur, est tempora dignissimos? Similique magnam aliquam numquam enim fugiat in rem perferendis, tenetur temporibus qui, iusto officiis voluptate facere, dolore aperiam! Dolor est praesentium architecto voluptatem tenetur quo eveniet aperiam repellat perferendis labore maiores ipsum et enim soluta saepe, odio corrupti voluptate delectus nam. Deserunt laborum expedita nemo veniam illum repellendus.</p>
+              <p className="text-gray-600 text-xs font-mono my-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti nam optio, neque ipsa et excepturi. Esse ipsa dignissimos aliquam veniam qui harum iusto enim ratione dolor est iste et cum corporis numquam itaque quasi doloremque quaerat ea, quod molestias cumque voluptate voluptatum? Repellat, in soluta! Aliquid, maiores, voluptates quisquam labore, repudiandae temporibus deserunt excepturi cupiditate adipisci non quidem eos ut? Quos doloribus ut ipsam, iure magnam, distinctio assumenda doloremque similique corporis excepturi labore magni atque perferendis! Beatae perferendis officia tenetur enim quae inventore mollitia esse dolores, asperiores distinctio minima laudantium quia aperiam dignissimos iste culpa sunt nisi eius consequuntur? Blanditiis sunt veniam minima ex cumque nam accusamus nesciunt adipisci optio facere. Dolorem qui modi repellendus fugit maxime asperiores! Necessitatibus soluta corrupti provident, rerum eveniet molestiae sunt aliquam, laborum illo nesciunt labore illum dolorem eaque magni dolor doloremque. Fugiat alias autem rerum, ut incidunt inventore! Dicta maiores nam aspernatur minus. Labore odio exercitationem, velit excepturi veniam fugit placeat aspernatur modi sunt magnam eaque illo beatae ipsum ipsa enim consequuntur facilis vitae quia cupiditate, odit, possimus at atque unde. Debitis quaerat vel nulla a, porro hic doloremque culpa accusamus, voluptatibus aliquid unde numquam asperiores, ex architecto ut quae! Facilis inventore vel sunt?</p>
+              <h3 className="text-xl font-semibold text-gray-800 my-3 border-b-3 pb-3 border-gray-300 text-shadow-lg">Skills & Requirements</h3>
               <div className="flex flex-wrap gap-2">
                 {job.tags.map((tag, index) => (
                   <span key={index} className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">{tag}</span>
@@ -133,13 +135,13 @@ const JobDetailHRView = () => {
 {activeTab === 'assessment' && (
   <div className="p-4">
   <div className="flex p-4 justify-center gap-16 items-center mb-4">
-    <Link to={`/jobs/${job.id}/applicants`} className="text font-semibold text-gray-900 border-2 py-4 px-8 rounded shadow-lg" aria-disabled>
+    <Link to={`/assessment/${job.id}/applicant`} className="text font-semibold text-gray-900 border-2 py-4 px-8 rounded shadow-lg" aria-disabled>
       Take Assessment 
     </Link>
-    <Link to={`/assessment`} className="font-semibold text-gray-900 border-2 py-4 px-8 rounded shadow-lg">
+    <div onClick={()=> navigate(`/assessment/${job.id}`, {state: job.title})} className="font-semibold text-gray-900 border-2 py-4 px-8 rounded shadow-lg">
       Build Assesment
-    </Link>
-  </div>
+    </div>
+ </div>
   
 </div>
 )}

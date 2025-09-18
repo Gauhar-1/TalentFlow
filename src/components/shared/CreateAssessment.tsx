@@ -12,21 +12,9 @@ import {
     AlertDialogTrigger 
 } from "../ui/alert-dialog";
 import { Input } from "../ui/input"; 
-import type { Assessment, Section } from "@/features/assessments/types";
+import type { Section } from "@/features/assessments/types";
 import { useAssessmentBuilder } from "@/features/assessments/context/AssessmentContext";
 
-// A simpler blank structure focusing on sections
-const BLANK_ASSESSMENT: Assessment = {
-    id: `asmt-${Date.now()}`,
-    jobTitle: "", // This can be set in a later step or a different input
-    sections: [
-        {
-            id: `sec-${Date.now()}`,
-            title: "Section 1",
-            questions: []
-        }
-    ]
-};
 
 export const CreateAssessment = ({ children }: { children: React.ReactNode }) => {
     const { assessment , setAssessment } = useAssessmentBuilder();
@@ -58,7 +46,7 @@ export const CreateAssessment = ({ children }: { children: React.ReactNode }) =>
 
     return (
         <AlertDialog>
-            <AlertDialogTrigger className="bg-green-600 py-1 px-4 text-white shadow-lg rounded">
+            <AlertDialogTrigger className="bg-green-600 py-1 px-2 text-white shadow-lg text-sm rounded">
                 {children}
             </AlertDialogTrigger>
             <AlertDialogContent className="max-w-lg">

@@ -1,9 +1,16 @@
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities"
-import type { JobProp, JobsProps } from "../types";
+import type { BadgeVariant, JobProp, JobsProps } from "../types";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+
+
+const badgeVariant : BadgeVariant[] = [ 'outline', 'default' , 'destructive'];
 
 
 export const DraggableJobRow = ({ job } : JobProp)=>{
+    const navigate = useNavigate();
 const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
         id: job.id,
         data: {
@@ -21,8 +28,14 @@ const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
         <div ref={setNodeRef} style={style} {...attributes} {...listeners} className={`flex justify-around mx-6 border-2  rounded-x shadow-lg transition-shadow cursor-grab active:cursor-grabbing font-semibold `}>
                 <div className='bg-white  mx-0.5 flex justify-center p-2 flex-1 rounded-l-xl'>{job.title}</div>
                 <div className='bg-white  mx-0.5 flex justify-center p-2 flex-1 '>{job.status}</div>
-                <div className='bg-white  mx-0.5 flex justify-center p-2 flex-1  '>{job.tags}</div>
-                <div className='bg-white  mx-0.5 flex justify-center p-2 flex-1 '>{job.slug}</div>
+                <div className='bg-white  mx-0.5 flex justify-center p-2 flex-1 gap-2 '>{job.tags.map((t, index) => {
+                    const variant = badgeVariant[index];
+                   return <Badge variant={variant} className="shadow-lg">
+                       {t}
+                    </Badge>
+                })}
+                    </div>
+                <div className='bg-white  mx-0.5 flex justify-center items-center flex-1'><Button className="h-7 bg-white text-gray-500 border-2 border-dashed border-gray-400 hover:bg-gray-400 hover:text-white hover:font-bold" onClick={()=> navigate(`/jobs/${job.id}`)}>View</Button></div>
               </div>
     )
 }

@@ -12,7 +12,7 @@ interface Props {
 
 export const QuestionEditor = ({ question }: Props) =>{
 
-    const { handleUpdateQuestion, handleSave , selectedSectionTitle, addQuestion, selectedQuestionId, handleDelete } = useAssessmentBuilder();
+    const { handleUpdateQuestion, handleSave , selectedSectionTitle, addQuestion, selectedQuestionId, handleDelete, isSaving } = useAssessmentBuilder();
     const [newOption, setNewOption] = useState('')
 
     const handleLabelChange = (e : ChangeEvent<HTMLInputElement>) => {
@@ -125,7 +125,7 @@ export const QuestionEditor = ({ question }: Props) =>{
             <Button onClick={()=>{
                 handleDelete(selectedQuestionId || '' , selectedSectionTitle || "")
             }} className="bg-blue-600 hover:bg-blue-700 my-3 mx-2">Delete</Button>
-            <Button onClick={handleSave} className="bg-blue-600 hover:bg-blue-700 my-3 mx-2">Save Assessment</Button>
+            <Button onClick={handleSave} className="bg-blue-600 hover:bg-blue-700 my-3 mx-2">{isSaving ? "Saving....":"Save Assessment"}</Button>
             </div>
             </CardContent>
             {selectedSectionTitle && <CardFooter className="m-2 flex justify-center">

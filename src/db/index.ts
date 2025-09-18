@@ -20,17 +20,51 @@ export interface ICandidate {
 
 export type Stages = 'applied' | 'screen' | 'tech' | 'offer' | 'hired' | 'rejected';
 
+
 export interface IAssessment {
-    jobId: number;
-    structure: any;
+    id: string;
+    jobTitle: string,
+    jobId: string,
+    sections: Section[];
+}
+
+export interface Section {
+    id: string;
+    title: string;
+    description?: string;
+    questions: Question[];
+}
+
+export interface Question {
+    id: string;
+    label: string;
+    type: 'single-choice' | 'multi-choice' | 'short-text' | 'long-text' | 'numeric' | 'file-upload';
+
+    options?: string[];
+
+    validations?: {
+        required?: boolean;
+        maxLength?: number;
+        range?: { min: number; max: number };
+    };
+
+    conditions?: Condition[];
+}
+
+export interface Condition {
+    questionId: string;
+    operator: '===' | '!==';
+    value: any;
 }
 
 export interface ITimelineEvent {
-    id? : number;
-    candidateId: number;
-    timestamp: Date;
-    event: string;
+    candidateId: string, 
+    status: string, 
+    date: string, 
+    notes: string, 
+    actor: string
 }
+
 
 export class TalentFlowDB extends Dexie {
     jobs!: Table<IJob>;

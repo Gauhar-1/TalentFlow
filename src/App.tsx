@@ -19,8 +19,8 @@ function App() {
           <Route path="/jobs/:jobid" element={<JobDetailPage />} />
           <Route path='/candidates' element={<CandidateListPages />}> </Route>
           <Route path='/candidates/:id' element={<CandidateProfilePage />}> </Route>
-          <Route path='/assessment' element={<AssessmentBuilder />}> </Route>
-          <Route path='/assessmentsRuntime' element={<AssessmentRuntime />}> </Route>
+          <Route path='/assessment/:jobId' element={<AssessmentBuilder />}> </Route>
+          <Route path='/assessment/:id/applicant' element={<AssessmentRuntime />}> </Route>
         </Routes>
       </Router>
     </AppProvider>

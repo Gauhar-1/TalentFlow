@@ -32,3 +32,8 @@ export interface Condition {
     operator: '===' | '!==';
     value: any;
 }
+
+export interface updateAssessmentProps {
+    jobId : string,
+    assessment: Assessment
+}

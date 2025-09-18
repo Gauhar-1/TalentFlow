@@ -3,18 +3,22 @@ import { QuestionEditor } from "./QuestionEditor";
 import { CreateAssessment } from "@/components/shared/CreateAssessment";
 import { useAssessmentBuilder } from "../context/AssessmentContext";
 import { Button } from "@/components/ui/button";
+import { useEffect} from "react";
 
 
-export const ConfigurationPanel = () =>{
+export const ConfigurationPanel = (props : any) =>{
     const {assessment , selectedQuestion, selectedSectionTitle, addQuestion } = useAssessmentBuilder();
+    
+
     return (
         <div className="flex flex-col gap-4 max-h-[70vh]">
-            <div className="p-5 border-b-3 border-gray-400">
-            <h2 className="font-bold text-2xl text-shadow-lg ">{assessment.jobTitle} - Assessment Builder</h2>
+            <div className="px-5 py-3 border-b-3 border-gray-400">
+            <h2 className="font-bold text-2xl text-shadow-lg ">{assessment.jobTitle}</h2>
+            <h2 className="font-serif text-gray-600 text-sm text-shadow-lg ">Assessment Builder</h2>
             </div>
             <Card className="bg-gray-500 p-3 mx-4 h-full">
-                <div className="flex justify-between p-2">
-            <p className="font-semibold  text-shadow-lg text-xl text-white">Select a question from the preview to edit it.</p>
+                <div className="flex justify-between p-1">
+            <p className="font-semibold  text-shadow-lg text-white">Select a Section and then add the Questions</p>
             <CreateAssessment>Add Section</CreateAssessment>
                 </div>
                 <CardContent className="bg-white h-full rounded-lg p-0">
