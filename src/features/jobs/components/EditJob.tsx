@@ -1,4 +1,3 @@
-// src/components/CreateAssessment.tsx
 
 import { Select } from "@radix-ui/react-select";
 import { 
@@ -12,45 +11,45 @@ import {
     AlertDialogTrigger 
 } from "../../../components/ui/alert-dialog";
 import { Input } from "../../../components/ui/input"; 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useCreateJob } from "../hooks/useMutations";
 import type { Job } from "../types";
+import { useUpdateJob } from "../hooks/useMutations";
+import { Edit } from "lucide-react";
 
 
-export const CreateJob = ({ children }: { children: React.ReactNode }) => {
+export const EditJob = ({ children , job }: { children: React.ReactNode, job: Job }) => {
 
     const [title, setTitle] = useState('');
     const [status, setStatus] = useState<'active' | 'archived' | undefined>(undefined);
     const [tags, setTags] = useState('');
 
-    const { mutate: create, isPending } = useCreateJob();
+    const { mutate: update } = useUpdateJob();
 
-    const handleCreateJob = (closeDialog : any) => {
-        const payload : Partial<Job> = {
-            title,
-            status,
-            tags: tags.split(',').map(t => t.trim()).filter(Boolean),
-        };
-        create(payload, {
-            onSuccess: () => {
-                closeDialog(); // Close the dialog after success
-                // Reset form
-                setTitle('');
-                setStatus(undefined);
-                setTags('');
-            }
-        });
+    useEffect(() => {
+        if (job) {
+            setTitle(job.title);
+            setStatus(job.status);
+            setTags(job.tags.join(', '));
+        }
+    }, [job]);
+
+    const handleUpdateJob = () => {
+        if(!job) return console.log("No job");
+        const jobId = job.id;
+        const payload = { title, status, tags: tags.split(',').map(t => t.trim()).filter(Boolean) };
+        update({ jobId, updates: payload });
     };
+    
 
     return (
         <AlertDialog>
-            <AlertDialogTrigger className="bg-blue-600 py-2 px-4 text-white shadow-lg text-sm rounded">
-                {children}
+            <AlertDialogTrigger className="flex items-center gap-2 bg-white border rounded-md px-4 py-2 text-sm font-semibold hover:bg-gray-50">
+                <Edit size={16} />{children}
             </AlertDialogTrigger>
             <AlertDialogContent className="max-w-lg">
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Create a new job posting for</AlertDialogTitle>
+                    <AlertDialogTitle>Edit the Job details</AlertDialogTitle>
                 </AlertDialogHeader>
                  <>
                                     <div>
@@ -79,8 +78,8 @@ export const CreateJob = ({ children }: { children: React.ReactNode }) => {
                                 </>
 
                 <AlertDialogFooter>
-                    <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>
-                    <AlertDialogAction className="bg-green-800 hover:bg-green-700" onClick={handleCreateJob} disabled={isPending || !title.trim()}>{isPending ?"Creating....":"Create Job"}</AlertDialogAction>
+                    <AlertDialogCancel >Cancel</AlertDialogCancel>
+                    <AlertDialogAction className="bg-green-800 hover:bg-green-700" onClick={handleUpdateJob} >Edit</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

@@ -164,7 +164,7 @@ export const jobsHandlers = [
     http.post('/api/jobs', async ({ request }) => {
         await randomDelay();
         if (shouldError()) {
-            return HttpResponse.json({ error: 'Server error while creating job.' }, { status: 500 });
+            return HttpResponse.json({ error: 'Fake Server error while creating job.' }, { status: 500 });
         }
 
         try {
@@ -198,7 +198,7 @@ export const jobsHandlers = [
     http.patch('/api/jobs/:id', async ({ request, params }) => {
         await randomDelay();
         if (shouldError()) {
-            return HttpResponse.json({ error: 'Server error while updating job.' }, { status: 500 });
+            return HttpResponse.json({ error: 'Fake Server error while updating job.' }, { status: 500 });
         }
 
         const jobId = params.id as string;

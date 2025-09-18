@@ -8,6 +8,7 @@ import { AssessmentRuntime } from './pages/AssessmentRuntime'
 import JobDetailPage from './pages/JobDetailsPage'
 import CandidateProfilePage from './pages/CandidateProfilePage'
 import { KanbanBoard } from './features/candidates/components/KanbanBoard'
+import { MainLayout } from './components/layout/MainLayout'
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
     <AppProvider>
       <Router>
         <Routes>
+          <Route element={<MainLayout />}>
           <Route path='/' element={<Navigate to="/jobs"/>}> </Route>
           <Route path='/jobs' element={<JobsPage />}> </Route>
           <Route path="/jobs/:jobid" element={<JobDetailPage />} />
@@ -23,6 +25,7 @@ function App() {
           <Route path='/candidates/:id' element={<CandidateProfilePage />}> </Route>
           <Route path='/assessment/:jobId' element={<AssessmentBuilder />}> </Route>
           <Route path='/assessment/:id/applicant' element={<AssessmentRuntime />}> </Route>
+          </Route>
         </Routes>
       </Router>
     </AppProvider>

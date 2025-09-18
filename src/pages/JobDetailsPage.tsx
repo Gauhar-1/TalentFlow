@@ -1,5 +1,6 @@
 import { useCandidates } from '@/features/candidates/hooks/useCandidates';
 import type { Candidate } from '@/features/candidates/types';
+import { EditJob } from '@/features/jobs/components/EditJob';
 import { useJobs } from '@/features/jobs/hooks/useJobs';
 import type { Job } from '@/features/jobs/types';
 import {  Edit, Share2 } from 'lucide-react'; 
@@ -73,7 +74,7 @@ const JobDetailHRView = () => {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button className="flex items-center gap-2 bg-white border rounded-md px-4 py-2 text-sm font-semibold hover:bg-gray-50"><Edit size={16} /> Edit Job</button>
+            <EditJob job={job}>Edit Job</EditJob>
             <button className="flex items-center gap-2 bg-blue-600 text-white rounded-md px-4 py-2 text-sm font-semibold hover:bg-blue-700"><Share2 size={16} /> Share</button>
           </div>
         </div>
