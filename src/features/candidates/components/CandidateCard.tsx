@@ -33,15 +33,15 @@ export const CandidateCard = ( {candidate} : CandidateProps)=>{
     const initials = candidate.name.split(' ').map( (n : string) => n[0]).join('');
 
     return (
-        <Card ref={setNodeRef} style={style} {...attributes} {...listeners} className="my-3 mr-1 shadow-lg transition-shadow cursor-grab active:cursor-grabbing">
+        <Card ref={setNodeRef} style={style} {...attributes} {...listeners} className="my-3 mx-auto w-fit  shadow-lg transition-shadow cursor-grab active:cursor-grabbing">
     <CardContent>
        <div className="flex gap-2">
          <Avatar className="w-10 h-10 border-1  border-gray-500">
-            <AvatarFallback className="bg-gray-200 ">{initials}</AvatarFallback>
+            <AvatarFallback className="bg-gray-200 text-xs font-semibold ">{initials}</AvatarFallback>
          </Avatar>
 
-       <div className="flex-1 flex flex-col items-center">
-           <div className="font-semibold text-sm">{candidate.name}</div>
+       <div className="flex-1 mt-1 flex flex-col items-center">
+           <div className="font-semibold text-xs">{candidate.name}</div>
            <p className="text-xs text-gray-500">{candidate.email}</p>
        </div>
     </div>

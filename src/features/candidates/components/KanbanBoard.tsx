@@ -110,8 +110,8 @@ export const KanbanBoard = () =>{
     
 
     return (
-        <div className="px-16 py-8">
-            <div className=" text-3xl font-bold text-gray-600 flex justify-center mb-5 text-shadow-lg">Kanban Board</div>
+        <div className="px-16 py-3">
+            <div className=" text-2xl font-bold text-gray-600 flex justify-center mb-1 text-shadow-lg">Kanban Board</div>
             <Card className="border-3 border-gray-400 shadow-lg p-0">
                 <CardContent>
                     <DndContext
@@ -120,7 +120,7 @@ export const KanbanBoard = () =>{
                onDragEnd= {handleDragEnd}
                collisionDetection={rectIntersection}
             >
-            <div className="flex gap-2 p-8 overflow-auto">
+            <div className="flex gap-2 px-4 py-8 overflow-auto">
                 { columns.map(column => (
                    <KanbanColumns key={column.id} column={column} candidates={candidatesByStage[column.id as CandidateStages] || []} />
 ))}

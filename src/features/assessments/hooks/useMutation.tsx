@@ -26,7 +26,7 @@ export const updateAssessment = async ({ jobId, assessment }: updateAssessmentPr
 
 
 
-export const useUpdateAssessment = () => {
+export const useUpdateAssessment = (onSuccess : any) => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -40,6 +40,8 @@ export const useUpdateAssessment = () => {
 
             return { previousAssessment, jobId };
         },
+
+        onSuccess : onSuccess,
 
         onError: ( context : any) => {
             if (context?.previousAssessment) {

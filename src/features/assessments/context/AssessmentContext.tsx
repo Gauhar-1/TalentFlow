@@ -3,7 +3,7 @@
 import React, { createContext, useState, useContext, useCallback, useEffect } from 'react';
 import type { Assessment, Question, Section } from '@/features/assessments/types';
 import { useGetAssessment } from '../hooks/useAssessment';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useUpdateAssessment } from '../hooks/useMutation';
 
 const BLANK_ASSESSMENT: Assessment = {
@@ -61,11 +61,18 @@ const AssessmentBuilderContext = createContext<AssessmentBuilderContextType | un
 // Create the Provider component
 export const AssessmentBuilderProvider = ({ children }: { children: React.ReactNode }) => {
   const { jobId } =useParams();
+  const navigate = useNavigate();
   const [assessment, setAssessment] = useState<Assessment>(BLANK_ASSESSMENT);
   const [selectedQuestionId, setSelectedQuestionId] = useState<string | null>(null);
   const [selectedSectionTitle, setSelectedSectionTitle] = useState<string | null>(null);
   const { data, isLoading, isError } = useGetAssessment(jobId || '');
-    const { mutate, isPending: isSaving } = useUpdateAssessment();
+    const { mutate, isPending: isSaving } = useUpdateAssessment({
+       onSuccess: () => {
+      console.log('Update successful! Navigating back...');
+      
+      navigate(-1);
+    },
+    });
 
    useEffect(() => {
      if (data) {
