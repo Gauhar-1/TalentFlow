@@ -47,7 +47,7 @@ export const useUpdateCandidateStage = (jobId: string) => {
 
             return { previousData };
         },
-        onError: (err, variables, context) => {
+        onError: ( context : any) => {
             if (context?.previousData) {
                 queryClient.setQueryData(queryKey, context.previousData);
             }

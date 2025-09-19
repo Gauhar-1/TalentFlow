@@ -41,13 +41,13 @@ export const useUpdateAssessment = () => {
             return { previousAssessment, jobId };
         },
 
-        onError: (err, variables, context) => {
+        onError: ( context : any) => {
             if (context?.previousAssessment) {
                 queryClient.setQueryData(['assessments', context.jobId], context.previousAssessment);
             }
         },
 
-        onSettled: (data, error, variables) => {
+        onSettled: ( variables : any) => {
             queryClient.invalidateQueries({ queryKey: ['assessments', variables.jobId] });
         },
     });

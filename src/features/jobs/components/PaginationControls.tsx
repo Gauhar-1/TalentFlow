@@ -21,7 +21,7 @@ export const PaginationControls = ({ currentPage, totalPages, onPageChange }: Pr
   }
 
   return (
-    <div className="flex items-center justify-end gap-4 mt-4">
+    <div className="flex  justify-between items-center gap-4 mt-4">
       <span className="text-sm  w-24  mx-8  text-gray-600">
         Page {currentPage} of {totalPages}
       </span>

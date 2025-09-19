@@ -52,6 +52,7 @@ interface AssessmentBuilderContextType {
   handleDelete : (qid : string, sid: string) => void;
   isSaving : boolean,
   isLoading : boolean,
+  isError : boolean
   
 }
 
@@ -63,7 +64,7 @@ export const AssessmentBuilderProvider = ({ children }: { children: React.ReactN
   const [assessment, setAssessment] = useState<Assessment>(BLANK_ASSESSMENT);
   const [selectedQuestionId, setSelectedQuestionId] = useState<string | null>(null);
   const [selectedSectionTitle, setSelectedSectionTitle] = useState<string | null>(null);
-  const { data, isLoading, isError, error: fetchError } = useGetAssessment(jobId || '');
+  const { data, isLoading, isError } = useGetAssessment(jobId || '');
     const { mutate, isPending: isSaving } = useUpdateAssessment();
 
    useEffect(() => {
@@ -143,7 +144,6 @@ export const AssessmentBuilderProvider = ({ children }: { children: React.ReactN
 
    const selectedQuestion = assessment?.sections?.flatMap(s => s.questions).find(q => q.id === selectedQuestionId);
 
-  // The value that will be available to all consumer components
   const value = {
     assessment,
     setAssessment,
@@ -158,7 +158,8 @@ export const AssessmentBuilderProvider = ({ children }: { children: React.ReactN
     setSelectedSectionTitle,
     handleDelete,
     isLoading: isLoading && !!jobId,
-    isSaving
+    isSaving,
+    isError
   };
 
   return (

@@ -103,7 +103,7 @@ export const JobTable = ()=>{
               <JobListDnD jobs={data?.jobs || []}/>
                <DragOverlay>
                   { activeJob ? (
-                <DraggableJobRow job={activeJob} />                              ) : null}
+                <DraggableJobRow job={activeJob} /> ) : null}
                </DragOverlay>
        </DndContext>
 

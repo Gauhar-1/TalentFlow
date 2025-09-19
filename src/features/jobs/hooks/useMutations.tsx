@@ -38,7 +38,7 @@ export const useReorderJobs = () => {
 
     return useMutation({
         mutationFn: reorderJob,
-        onMutate: async ({ fromOrder, toOrder, jobId }) => {
+        onMutate: async ({ fromOrder, toOrder }) => {
             await queryClient.cancelQueries({ queryKey });
 
             const previousJobs = queryClient.getQueryData<IJob[]>(queryKey);
@@ -49,7 +49,7 @@ export const useReorderJobs = () => {
 
             return { previousJobs };
         },
-        onError: (err, variables, context) => {
+        onError: ( context : any) => {
             if (context?.previousJobs) {
                 queryClient.setQueryData(queryKey, context.previousJobs);
             }
@@ -101,7 +101,7 @@ export const useUpdateJob = () => {
 
             return { previousJobs };
         },
-        onError: (err, variables, context) => {
+        onError: ( context : any) => {
             if (context?.previousJobs) {
                 queryClient.setQueryData(queryKey, context.previousJobs);
             }
