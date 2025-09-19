@@ -38,7 +38,6 @@ export const candidateHandlers = [
     try {
       let query = db.candidates.toCollection();
 
-      // The handler now ONLY filters by stage
       if (stage && stage !== 'all') {
         query = query.filter(c => c.stage === stage);
       }
@@ -76,7 +75,7 @@ export const candidateHandlers = [
                 const updatedCount = await db.candidates.update(candidateId, { stage });
 
                 if (updatedCount === 0) {
-                    throw new Error('Candidate not found'); // This will cause the transaction to fail
+                    throw new Error('Candidate not found'); 
                 }
 
                 const newStatus = stage.charAt(0).toUpperCase() +stage.slice(1);
@@ -165,7 +164,7 @@ export const candidateHandlers = [
 
                 await db.timeline.add(timelineEvent);
 
-            return HttpResponse.json(newCandidate, { status: 201 }); // 201 Created
+            return HttpResponse.json(newCandidate, { status: 201 });
 
         } catch (e) {
             const errorMessage = e instanceof Error ? e.message : 'An unknown error occurred';
