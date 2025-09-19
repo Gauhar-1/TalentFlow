@@ -1,7 +1,8 @@
 
-import { db, type IAssessment } from '@/db';
+import { db, type IAssessment, type IAssessmentSubmission } from '@/db';
 import { http, HttpResponse } from 'msw';
 import { randomDelay, shouldError } from '../utils';
+import { faker } from '@faker-js/faker';
 
 
 
@@ -57,32 +58,39 @@ export const assessmentHandlers = [
     }),
 
     
-    // http.post('/assessments/:jobId/submit', async ({ request, params }) => {
-    //     await randomDelay();
-    //     if (shouldError()) {
-    //         console.error('[MSW] Simulating 500 Internal Server Error for POST /assessments/:jobId/submit');
-    //         return HttpResponse.json({ error: 'Your submission could not be processed at this time.' }, { status: 500 });
-    //     }
+   http.post('/api/assessments/:jobId/submit', async ({ request, params }) => {
+    console.log('MSW: Intercepted assessment submission.');
 
-    //     const jobId = parseInt(params.jobId);
-    //     const { candidateId, responses } = await request.json();
-        
-    //     console.log(`[MSW] Intercepted POST /assessments/${jobId}/submit with payload:`, { candidateId, responses });
+    try {
+      const { jobId } = params;
+      const {candidateId, answers } = await request.json() as Partial<IAssessmentSubmission>;
 
-    //     const submission = {
-    //         jobId,
-    //         candidateId,
-    //         responses,
-    //         submittedAt: new Date().toISOString()
-    //     };
-        
-    //     try {
-    //         const id = await db.assessmentSubmissions.add(submission);
-    //         console.log('[MSW] Stored submission successfully with ID:', id);
-    //         return HttpResponse.json({ submissionId: id, message: 'Assessment submitted successfully' }, { status: 201 });
-    //     } catch (e) {
-    //         console.error('[MSW] Error storing submission:', e);
-    //         return HttpResponse.json({ error: 'Failed to save submission to the database' }, { status: 500 });
-    //     }
-    // }),
+      if (!candidateId || !answers) {
+        return HttpResponse.json(
+          { error: '`candidateId` and `answers` are required fields.' },
+          { status: 400 }        );
+      }
+
+      const newSubmission: IAssessmentSubmission = {
+        submissionId: faker.string.uuid(),
+        jobId: String(jobId), 
+        candidateId: candidateId,
+        answers: answers,
+        submittedAt: new Date().toISOString(),
+      };
+
+      await db.assessmentSubmissions.add(newSubmission);
+
+      console.log(' MSW: Submission successfully saved to Dexie:', newSubmission);
+
+      return HttpResponse.json(newSubmission, { status: 201 }); 
+
+    } catch (error) {
+      console.error('MSW: Error processing submission:', error);
+      return HttpResponse.json(
+        { error: 'Failed to save submission to the database.' },
+        { status: 500 }
+      );
+    }
+  }),
 ];

@@ -1,7 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { updateAssessmentProps } from "../types";
 import axios from "axios";
+import type { IAssessmentSubmission } from "@/db";
 
+interface SubmitAssessmentVariables {
+  jobId: string;
+  candidateId: string;
+  answers: Record<string, any>;
+}
 
 export const updateAssessment = async ({ jobId, assessment }: updateAssessmentProps) => {
     const response = await axios.put(`/api/assessments/${jobId}`, {assessment} , {
@@ -47,35 +53,37 @@ export const useUpdateAssessment = () => {
     });
 };
 
-// export const submitAssessment = async ({ jobId, submission }) => {
-//     const response = await fetch(`/assessments/${jobId}/submit`, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(submission),
-//     });
 
-//     if (!response.ok) {
-//         const errorData = await response.json();
-//         throw new Error(errorData.error || 'Failed to submit assessment.');
-//     }
-//     return response.json();
-// };
 
-/**
- * Hook to submit assessment responses.
- */
-// export const useSubmitAssessment = () => {
-//     return useMutation({
-//         mutationFn: submitAssessment,
-//         onSuccess: (data) => {
-//             console.log('Submission successful:', data);
-//             // You could invalidate related queries here if needed, e.g., a candidate's timeline.
-//             // queryClient.invalidateQueries({ queryKey: ['timeline', candidateId] });
-//         },
-//         onError: (error) => {
-//             console.error('Submission failed:', error);
-//         },
-//     });
-// };
+const submitAssessment = async ({ 
+  jobId, 
+  candidateId, 
+  answers 
+}: SubmitAssessmentVariables): Promise<IAssessmentSubmission> => {
+  const response = await axios.post(`/api/assessments/${jobId}/submit`, { candidateId, answers }, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  return response.data;
+};
+
+export const useSubmitAssessment = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<IAssessmentSubmission, Error, SubmitAssessmentVariables>({
+    mutationFn: submitAssessment,
+
+    onSuccess: (data) => {
+      console.log('Assessment submitted successfully:', data);
+
+      queryClient.invalidateQueries({ queryKey: ['submissions', data.candidateId] });
+
+    },
+
+    onError: (error) => {
+      console.error('An error occurred during submission:', error.message);
+    },
+  });
+};

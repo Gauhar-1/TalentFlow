@@ -28,6 +28,14 @@ export interface IAssessment {
     sections: Section[];
 }
 
+export interface IAssessmentSubmission {
+  submissionId: string;          
+  jobId: string;                 
+  candidateId: string;           
+  answers: Record<string, any>;  
+  submittedAt: string;           
+}
+
 export interface Section {
     id: string;
     title: string;
@@ -71,14 +79,16 @@ export class TalentFlowDB extends Dexie {
     candidates!: Table<ICandidate>;
     assessments!: Table<IAssessment>;
     timeline!: Table<ITimelineEvent>;
+    assessmentSubmissions!: Table<IAssessmentSubmission>;
 
     constructor(){
         super('talentFlowDB');
-        this.version(1).stores({
+        this.version(2).stores({
             jobs: '++id, title, status, order',
             candidates: '++id, name, email, jobId, stage',
             assessments: '&jobId',
             timeline: '++id, candidateId, timestamp',
+            assessmentSubmissions: 'submissionId, jobId, candidateId',
         });
     }
 }
