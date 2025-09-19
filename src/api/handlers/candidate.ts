@@ -1,4 +1,4 @@
-import { db, type Stages } from "@/db";
+import { db, type ICandidate, type Stages } from "@/db";
 import { delay, http, HttpResponse } from "msw";
 import { randomDelay, shouldError } from "../utils";
 import { faker } from "@faker-js/faker";
@@ -125,6 +125,51 @@ export const candidateHandlers = [
         } catch (e) {
             console.error('[MSW] Error fetching timeline:', e);
             return HttpResponse.json({ error: 'Database query failed' }, { status: 500 });
+        }
+    }),
+
+     http.post('/api/candidates', async ({ request }) => {
+        await randomDelay();
+        if (shouldError()) {
+            return HttpResponse.json({ error: 'A Simulating server error occurred while creating the candidate.' }, { status: 500 });
+        }
+
+        try {
+            const { name, email, jobId } = await request.json() as Partial<ICandidate>;
+            if (!name || !email ||!jobId) {
+                console.log("Name",name);
+                console.log("email",email);
+                console.log("JobId",jobId);
+                return HttpResponse.json({ error: 'Name and email are required fields.' }, { status: 400 });
+            }
+            
+            const newCandidate : ICandidate = {
+                id: faker.string.uuid(),
+                name,
+                email,
+                jobId, 
+                stage: 'applied',
+            };
+
+            
+             await db.candidates.add(newCandidate);
+
+
+                const timelineEvent = {
+                    candidateId: newCandidate.id,
+                    status: 'Candidate applied.',
+                    notes: 'Applied via company website.',
+                    actor: faker.person.fullName(),
+                    date: faker.date.recent({ days: 30 }).toISOString(),
+                };
+
+                await db.timeline.add(timelineEvent);
+
+            return HttpResponse.json(newCandidate, { status: 201 }); // 201 Created
+
+        } catch (e) {
+            const errorMessage = e instanceof Error ? e.message : 'An unknown error occurred';
+            return HttpResponse.json({ error: `Failed to create candidate: ${errorMessage}` }, { status: 500 });
         }
     }),
 ]

@@ -42,7 +42,6 @@ export const useUpdateCandidateStage = (jobId: string) => {
                     c.id === candidateId ? { ...c, stage } : c
                 );
 
-                // 2. Return the ENTIRE object with the updated array
                 return { ...oldData, candidates: updatedCandidates };
             });
 
@@ -58,4 +57,33 @@ export const useUpdateCandidateStage = (jobId: string) => {
             queryClient.invalidateQueries({ queryKey });
         },
     });
+};
+
+const createCandidate = async (newCandidate: Partial<Candidate>): Promise<Candidate> => {
+    console.log("New Candidate", newCandidate);
+  const response = await axios.post('/api/candidates',newCandidate, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  return response.data;
+};
+
+export const useCreateCandidate = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: createCandidate,
+    
+    onSuccess: (data) => {
+      console.log('Candidate created successfully:', data);
+      
+      queryClient.invalidateQueries({ queryKey: ['candidates'] });
+    },
+
+    onError: (error) => {
+      console.error('An error occurred:', error.message);
+    },
+  });
 };

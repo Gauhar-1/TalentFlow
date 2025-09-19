@@ -51,8 +51,6 @@ export const VirtualizedList = () =>{
     if (isError) return <ErrorPage>Error loading candidates.</ErrorPage>
 
     return (
-        <div className="px-16 py-8">
-            <div className=" text-3xl font-bold text-gray-600 flex justify-center mb-5 text-shadow-lg">Candidate Virtualized list</div>
         <Table search={searchTerm} headers={candidateHeaders} setSearch={setSearchTerm} Status={candidateStatus} handleStatus={setStageFilter}>
             <div ref={parentRef} className="h-[500px] overflow-y-auto">
                 <div style={{
@@ -79,6 +77,5 @@ export const VirtualizedList = () =>{
                 </div>
             </div>
         </Table>
-        </div>
     )
 }
