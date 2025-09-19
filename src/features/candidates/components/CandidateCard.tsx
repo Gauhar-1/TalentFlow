@@ -41,7 +41,7 @@ export const CandidateCard = ( {candidate} : CandidateProps)=>{
          </Avatar>
 
        <div className="flex-1 mt-1 flex flex-col items-center">
-           <div className="font-semibold text-xs">{candidate.name}</div>
+           <div className="font-semibold text-sm">{candidate.name}</div>
            <p className="text-xs text-gray-500">{candidate.email}</p>
        </div>
     </div>

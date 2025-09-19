@@ -14,7 +14,7 @@ export const KanbanColumns = ( { candidates, column } : CandidateListPops)=>{
         id: column.id,
     });
     return (
-        <div ref={setNodeRef} className=" min-w-[250px] flex flex-col gap-2 ">
+        <div ref={setNodeRef} className=" min-w-[300px] flex flex-col gap-2 ">
             <div className={`${isOver ? "bg-gray-600" : "bg-gray-400"} bg-gray-400 rounded text-lg shadow-lg flex justify-center text-white font-semibold text-shadow-lg p-2`}>{column.title}</div>
             <SortableContext items={ candidates.map(c => c.id)}>
             <ScrollArea className=" h-[500px] rounded-md border  bg-gray-200">
