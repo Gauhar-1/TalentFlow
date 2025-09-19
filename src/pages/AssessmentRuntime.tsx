@@ -177,14 +177,17 @@ export const AssessmentRuntime = () => {
         });
     }, [api]);
 
+    
     const canGoNext = useMemo(() => {
         const currentQuestion = visibleQuestions[currentSlide];
         if (!currentQuestion) return false;
         if (!currentQuestion.validations?.required) return true;
-
+        
         const response = responses[currentQuestion.id];
         return response !== undefined && response !== null && response !== '';
     }, [visibleQuestions, currentSlide, responses]);
+    
+
 
     const handleAnswerChange = (questionId: string, value: any) => {
         setResponses(prev => ({

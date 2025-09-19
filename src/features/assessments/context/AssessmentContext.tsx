@@ -77,7 +77,7 @@ export const AssessmentBuilderProvider = ({ children }: { children: React.ReactN
    useEffect(() => {
      if (data) {
            console.log("Data loaded in Context:", data);
-           setAssessment(data.assessment);
+           setAssessment(data);
         }
    }, [data]);
 

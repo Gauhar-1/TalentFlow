@@ -12,6 +12,7 @@ export const PreviewPanel = () =>{
 
         return sectionTitles;
     },[assessment])
+    
 
     return (
         <div className="flex flex-col gap-3">
@@ -20,7 +21,7 @@ export const PreviewPanel = () =>{
                 <CardHeader className="text-white text-2xl text-shadow-lg font-bold">Live Preview</CardHeader>
 
                 <Card className="p-2 rounded-lg my-2">
-                        <CardContent className="flex gap-2">
+                        <CardContent className="flex gap-2 overflow-auto">
                         {sections.map( s => (
                             <Button key={s} className={`${ s == selectedSectionTitle ? "bg-gray-500 shadow-xl " :"bg-white text-gray-600 border-1 border-gray-500"} font-mono hover:bg-gray-400 `} onClick={() =>{
                                 setSelectedSectionTitle(s)

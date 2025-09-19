@@ -9,6 +9,7 @@ export const ConfigurationPanel = () =>{
     const {assessment , selectedQuestion, selectedSectionTitle, addQuestion } = useAssessmentBuilder();
     
 
+
     return (
         <div className="flex flex-col gap-4 max-h-[70vh]">
             <div className="px-5 py-3 border-b-3 border-gray-400">
