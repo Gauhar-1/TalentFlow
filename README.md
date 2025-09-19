@@ -1,14 +1,9 @@
-Of course. Based on the detailed assignment instructions and our extensive discussions building out the core logic, here is a comprehensive `README.md` file for your TalentFlow project.
-
-This document is structured to meet all the evaluation criteria, highlighting the technical decisions, architecture, and features we've implemented.
-
------
 
 # TalentFlow
 
 > A lightweight, front-end-only hiring platform for managing jobs, candidates, and assessments. Built with modern React, this project simulates a complete hiring workflow without a backend, using local persistence to maintain state.
 
-**[Live Demo Link]** 
+**[[Live Demo Link](https://talent-flow-fawn.vercel.app/jobs)]** 
 
 -----
 

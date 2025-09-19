@@ -26,7 +26,7 @@ export const CreateJob = ({ children }: { children: React.ReactNode }) => {
 
     const { mutate: create, isPending } = useCreateJob();
 
-    const handleCreateJob = (closeDialog : any) => {
+    const handleCreateJob = () => {
         const payload : Partial<Job> = {
             title,
             status,
@@ -34,8 +34,6 @@ export const CreateJob = ({ children }: { children: React.ReactNode }) => {
         };
         create(payload, {
             onSuccess: () => {
-                closeDialog(); // Close the dialog after success
-                // Reset form
                 setTitle('');
                 setStatus(undefined);
                 setTags('');
